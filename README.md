@@ -1,15 +1,4 @@
-# Hotel Booking App - Flutter
-
-- Preview video: https://youtu.be/yo1V6QxXiss
-- Support my work: https://www.patreon.com/sangvaleap
-
-- [My Patreon](https://www.patreon.com/sangvaleap)
-- [My Twitter](https://twitter.com/sangvaleap)
-- [My Linkedin](https://www.linkedin.com/in/sangvaleap-vanny-353b25aa/)
-
-- My Email: sangvaleap.vanny@gmail.com
-
-=> To access complete source code and learn more, please join [My Patreon](https://www.patreon.com/sangvaleap)
+# Hostel Booking App - Flutter with firebase
 
 
 <img width="600" alt="hb1" src="https://user-images.githubusercontent.com/86506519/157618921-10b231e7-740d-44a5-b9cc-b392e37549b6.png">
