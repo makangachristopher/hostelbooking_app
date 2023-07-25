@@ -4,6 +4,7 @@ class HostelModel {
   final String imageUrl;
   final List<String> relatedImagesUrls;
   final int price;
+  final String university;
   final String location;
   final String description;
   final List<String> amenities;
@@ -17,12 +18,11 @@ class HostelModel {
       required this.imageUrl,
       required this.relatedImagesUrls,
       required this.price,
+      required this.university,
       required this.location,
       required this.description,
       required this.amenities,
       required this.contactDetails,
       required this.doubleRoomsAvailability,
-      required this.singleRoomsAvailability
-
-      });
+      required this.singleRoomsAvailability});
 }
