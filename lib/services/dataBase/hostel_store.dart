@@ -8,7 +8,7 @@ class HostelStore {
 
 // A function to add a hostel to firestore
 
-  Future<void> addHostel(HostelModel hostel) async {
+  Future<void> addHostel(Hostel hostel) async {
     await _firestore
         .collection('hostels')
         .add({
@@ -30,11 +30,8 @@ class HostelStore {
 
   // A function to fetch hostels from firestore
 
-//   Future<List<HostelModel>> getHostels() async {
-//     final QuerySnapshot snapshot = await _firestore.collection('hostels').get();
-//     if (snapshot.docs.isEmpty) {
-//       return [];
-//     }
-//     // return 0;
-//   }
-}
+  Future<List> getHostels() async {
+    final QuerySnapshot snapshot = await _firestore.collection('hostels').get();
+    return snapshot.docs.map((doc) => Hostel.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>)).toList();
+  }
+  }
