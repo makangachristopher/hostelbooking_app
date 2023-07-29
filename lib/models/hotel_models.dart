@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Hostel {
-  final String hostelID;
+  String? hostelID;
   final String name;
   final String imageUrl;
   final List relatedImagesUrls;
@@ -16,7 +16,7 @@ class Hostel {
   final bool singleRoomsAvailability;
 
   Hostel(
-      {required this.hostelID,
+      {
       required this.name,
       required this.imageUrl,
       required this.relatedImagesUrls,
@@ -36,7 +36,6 @@ class Hostel {
   ) {
     final data = snapshot.data();
     return Hostel(
-      hostelID: data?['hostelID'],
       name: data?['data'],
       imageUrl: data?['imageUrl'],
       price: data?['price'],
@@ -55,7 +54,6 @@ class Hostel {
 
   Map<String, dynamic> toFirestore() {
     return {
-      if (hostelID != null) "hostelID": name,
       if (name != null) "name": name,
       if (imageUrl != null) "imageUrl": imageUrl,
       if (price != null) "price": price,
