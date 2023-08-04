@@ -52,7 +52,7 @@ class FeatureItem extends StatelessWidget {
                 children: [
                   _buildName(),
                   SizedBox(
-                    height: 5,
+                    height: 0,
                   ),
                   _buildInfo(),
                 ],
