@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           width: 3,
         ),
         Text(
-          "Phnom Penh",
+          "Kampala",
           style: TextStyle(
             color: AppColor.darker,
             fontSize: 13,
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
             child: Text(
-              "The Best Hotel Rooms",
+              "The Best Hostel Rooms",
               style: TextStyle(
                 color: AppColor.textColor,
                 fontWeight: FontWeight.w600,
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           ),
           _buildFeatured(),
           const SizedBox(
-            height: 15,
+            height: 20,
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 15, 10),

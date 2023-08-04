@@ -82,7 +82,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
-      bottomNavigationBar: _buildBottomBar(),
+      // bottomNavigationBar: _buildBottomBar(),
       body: _buildPage(),
     );
   }
@@ -97,7 +97,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildBottomBar() {
+  /*  Widget _buildBottomBar() {
     return Container(
       height: 75,
       width: double.infinity,
@@ -136,5 +136,5 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
         ),
       ),
     );
-  }
+  } */
 }

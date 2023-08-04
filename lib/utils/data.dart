@@ -1,30 +1,28 @@
 var profile = {
-  "name": "Sangvaleap",
+  "name": "Ahumuza",
   "image": "https://avatars.githubusercontent.com/u/86506519?v=4",
-  "email": "sangvaleap.vanny@gmail.com"
+  "email": "ahumuzacedric@gmail.com"
 };
 
 List categories = [
   {"name": "All", "icon": "assets/icons/home.svg"},
-  {"name": "Single Room", "icon": "assets/icons/home.svg"},
-  {"name": "Double Room", "icon": "assets/icons/home.svg"},
-  {"name": "Family Room", "icon": "assets/icons/home.svg"},
-  {"name": "Queen Room", "icon": "assets/icons/home.svg"},
-  {"name": "King Room", "icon": "assets/icons/home.svg"},
-  {"name": "Bungalow", "icon": "assets/icons/home.svg"},
-  {"name": "Single Villa", "icon": "assets/icons/home.svg"},
-  {"name": "Apartment", "icon": "assets/icons/home.svg"},
+  {"name": "Single Ordinary Room", "icon": "assets/icons/home.svg"},
+  {"name": "Double Ordinary Room", "icon": "assets/icons/home.svg"},
+  {"name": "Tripple Ordinary Room", "icon": "assets/icons/home.svg"},
+  {"name": "Single Self-Contained Room", "icon": "assets/icons/home.svg"},
+  {"name": "Double Self-Contained Room", "icon": "assets/icons/home.svg"},
+  {"name": "Tripple Self-Contained Room", "icon": "assets/icons/home.svg"},
 ];
 
 List cities = [
-  {"name": "Phnom Penh", "icon": "assets/icons/home.svg"},
-  {"name": "Siem Reap", "icon": "assets/icons/home.svg"},
-  {"name": "Sihanoukville", "icon": "assets/icons/home.svg"},
-  {"name": "Battambang", "icon": "assets/icons/home.svg"},
-  {"name": "Mondulkiri", "icon": "assets/icons/home.svg"},
-  {"name": "Kampot", "icon": "assets/icons/home.svg"},
-  {"name": "Pursat", "icon": "assets/icons/home.svg"},
-  {"name": "Steung Treng", "icon": "assets/icons/home.svg"},
+  {"name": "Kampala", "icon": "assets/icons/home.svg"},
+  {"name": "Mbarara", "icon": "assets/icons/home.svg"},
+  {"name": "Mukono", "icon": "assets/icons/home.svg"},
+  {"name": "Gulu", "icon": "assets/icons/home.svg"},
+  {"name": "Nkozi", "icon": "assets/icons/home.svg"},
+  {"name": "Ishaka", "icon": "assets/icons/home.svg"},
+  {"name": "Arua", "icon": "assets/icons/home.svg"},
+  {"name": "Soroti", "icon": "assets/icons/home.svg"},
 ];
 
 List<String> albumImages = [
@@ -37,13 +35,13 @@ List<String> albumImages = [
 List features = [
   {
     "id": 100,
-    "name": "Superior Room",
+    "name": "Single Room",
     "image":
         "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$210",
+    "price": "\UGX 800,000",
     "type": categories[1]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -51,13 +49,13 @@ List features = [
   },
   {
     "id": 101,
-    "name": "Junior Suite",
+    "name": "Tripple Room",
     "image":
         "https://images.unsplash.com/photo-1505692952047-1a78307da8f2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$150",
+    "price": "\UGX 450,000",
     "type": categories[3]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": true,
     "album_images": albumImages,
     "description":
@@ -65,13 +63,13 @@ List features = [
   },
   {
     "id": 102,
-    "name": "Classic Queen Room",
+    "name": "Double Room",
     "image":
         "https://images.unsplash.com/photo-1618221118493-9cfa1a1c00da?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$320",
+    "price": "\UGX 650,000",
     "type": categories[2]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -79,13 +77,13 @@ List features = [
   },
   {
     "id": 103,
-    "name": "Luxury King",
+    "name": "Single Room",
     "image":
         "https://images.unsplash.com/photo-1571508601891-ca5e7a713859?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$350",
-    "type": categories[2]["name"],
+    "price": "\UGX 1,200,000",
+    "type": categories[4]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -93,13 +91,13 @@ List features = [
   },
   {
     "id": 104,
-    "name": "Classic Room",
+    "name": "Double Room",
     "image":
         "https://images.unsplash.com/photo-1541123356219-284ebe98ae3b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$180",
-    "type": categories[4]["name"],
+    "price": "\UGX 800,000",
+    "type": categories[5]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -107,13 +105,13 @@ List features = [
   },
   {
     "id": 105,
-    "name": "Twin Room",
+    "name": "Tripple Room",
     "image":
         "https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$250",
-    "type": categories[1]["name"],
+    "price": "\UGX 650,000",
+    "type": categories[6]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -124,13 +122,13 @@ List features = [
 List recommends = [
   {
     "id": 110,
-    "name": "Luxury King",
+    "name": "Single Room",
     "image":
         "https://images.unsplash.com/photo-1541123356219-284ebe98ae3b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$310",
-    "type": categories[1]["name"],
+    "price": "\UGX 1,200,000",
+    "type": categories[4]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -138,13 +136,13 @@ List recommends = [
   },
   {
     "id": 111,
-    "name": "Classic Room",
+    "name": "Double Room",
     "image":
         "https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$250",
-    "type": categories[2]["name"],
+    "price": "\UGX 800,000",
+    "type": categories[5]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "is_favorited": false,
     "album_images": albumImages,
     "description":
@@ -152,13 +150,13 @@ List recommends = [
   },
   {
     "id": 112,
-    "name": "Twin Room",
+    "name": "Tripple Room",
     "image":
         "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "price": "\$190",
-    "type": categories[1]["name"],
+    "price": "\UGX 650,000",
+    "type": categories[6]["name"],
     "rate": "4.5",
-    "location": "Phnom Penh",
+    "location": "Kampala",
     "album_images": albumImages,
     "is_favorited": false,
     "description":
