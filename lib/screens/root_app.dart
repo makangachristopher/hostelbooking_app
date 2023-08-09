@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:hostel_booking/screens/setting.dart';
 import 'package:hostel_booking/theme/color.dart';
 import 'package:hostel_booking/utils/constant.dart';
 import 'package:hostel_booking/widgets/bottombar_item.dart';
-=======
-import 'package:hotel_booking/screens/setting.dart';
-import 'package:hotel_booking/screens/details_screen.dart';
-import 'package:hotel_booking/theme/color.dart';
-import 'package:hotel_booking/utils/constant.dart';
-import 'package:hotel_booking/widgets/bottombar_item.dart';
->>>>>>> cfa7d7dedd5e27ed3561d7b8d7fa02c1361073c2
 
 import 'home.dart';
 

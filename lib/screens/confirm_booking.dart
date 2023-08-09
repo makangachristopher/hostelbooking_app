@@ -1,6 +1,6 @@
-import 'package:hotel_booking/theme.dart';
+import 'package:hostel_booking/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/screens/payment_screen.dart';
+import 'package:hostel_booking/screens/payment_screen.dart';
 
 class ConfirmBookingPage extends StatelessWidget {
   @override

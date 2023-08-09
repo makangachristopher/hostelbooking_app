@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/screens/confirm_booking.dart';
+import 'package:hostel_booking/screens/confirm_booking.dart';
 import '../theme.dart';
 
 class DetailPage extends StatelessWidget {
