@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/theme/color.dart';
-import 'package:hotel_booking/utils/data.dart';
-import 'package:hotel_booking/widgets/city_item.dart';
-import 'package:hotel_booking/widgets/feature_item.dart';
-import 'package:hotel_booking/widgets/notification_box.dart';
-import 'package:hotel_booking/widgets/recommend_item.dart';
+import 'package:hostel_booking/theme/color.dart';
+import 'package:hostel_booking/utils/data.dart';
+import 'package:hostel_booking/widgets/city_item.dart';
+import 'package:hostel_booking/widgets/feature_item.dart';
+import 'package:hostel_booking/widgets/notification_box.dart';
+import 'package:hostel_booking/widgets/recommend_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

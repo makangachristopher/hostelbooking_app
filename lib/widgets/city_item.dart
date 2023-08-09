@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/theme/color.dart';
+import 'package:hostel_booking/theme/color.dart';
 
 class CityItem extends StatelessWidget {
   const CityItem({

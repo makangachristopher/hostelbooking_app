@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/theme/color.dart';
-import 'package:hotel_booking/widgets/favorite_box.dart';
+import 'package:hostel_booking/theme/color.dart';
+import 'package:hostel_booking/widgets/favorite_box.dart';
 import 'custom_image.dart';
 
 class FeatureItem extends StatelessWidget {

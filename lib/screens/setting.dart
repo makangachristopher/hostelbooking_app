@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hotel_booking/theme/color.dart';
-import 'package:hotel_booking/utils/data.dart';
-import 'package:hotel_booking/widgets/custom_image.dart';
-import 'package:hotel_booking/widgets/icon_box.dart';
-import 'package:hotel_booking/widgets/setting_item.dart';
+import 'package:hostel_booking/theme/color.dart';
+import 'package:hostel_booking/utils/data.dart';
+import 'package:hostel_booking/widgets/custom_image.dart';
+import 'package:hostel_booking/widgets/icon_box.dart';
+import 'package:hostel_booking/widgets/setting_item.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);

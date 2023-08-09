@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hotel_booking/theme/color.dart';
+import 'package:hostel_booking/theme/color.dart';
 
 class BottomBarItem extends StatelessWidget {
   const BottomBarItem(

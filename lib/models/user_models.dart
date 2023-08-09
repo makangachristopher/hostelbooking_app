@@ -5,6 +5,9 @@ class User {
   final String userType;
   final String profilePicture;
   final int phoneNumber;
+  int? otherphoneNumber;
+  String? location;
+  String? hostelID;
 
   User(
       {required this.uid,
@@ -12,7 +15,5 @@ class User {
       required this.email,
       required this.userType,
       required this.profilePicture,
-      required this.phoneNumber
-      
-      });
+      required this.phoneNumber});
 }

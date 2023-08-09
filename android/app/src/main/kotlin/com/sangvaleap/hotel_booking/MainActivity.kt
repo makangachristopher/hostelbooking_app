@@ -1,4 +1,4 @@
-package com.sangvaleap.hotel_booking
+package com.sangvaleap.hostel_booking
 
 import io.flutter.embedding.android.FlutterActivity
 

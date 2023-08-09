@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/hotel_models.dart';
+import '../models/hostel_models.dart';
 import '../services/dataBase/hostel_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';

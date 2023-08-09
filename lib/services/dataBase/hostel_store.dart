@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/hotel_models.dart';
+import '../../models/hostel_models.dart';
 
 class HostelStore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -28,7 +28,7 @@ class HostelStore {
 
   Future<void> addHostel(Hostel hostel) async {
     final DocumentReference docRef = _firestore.collection('hostels').doc();
-       
+
     await _firestore
         .collection('hostels')
         .add({
@@ -48,7 +48,6 @@ class HostelStore {
         .then((value) => print("Hostel Added"))
         .catchError((error) => print("Failed to add Hostel: $error"));
 
-   
     final String hostelId = docRef.id;
     hostel.hostelID = hostelId;
   }
