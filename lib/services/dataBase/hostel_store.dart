@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/hotel_models.dart';
@@ -9,8 +7,6 @@ class HostelStore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final firebase_storage.FirebaseStorage _storage =
       firebase_storage.FirebaseStorage.instance;
-
-  String _imageUrl = '';
 
 // Uploading images to cloud storage
 
@@ -30,20 +26,19 @@ class HostelStore {
 
 // A function to add a hostel to firestore
 
-  Future<void> addHostel(Hostel hostel, File imageFile) async {
-    final String imageUrl = await uploadImage(imageFile);
+  Future<void> addHostel(Hostel hostel) async {
     final DocumentReference docRef = _firestore.collection('hostels').doc();
-    if (imageUrl.isNotEmpty){
        
     await _firestore
         .collection('hostels')
         .add({
           'name': hostel.name,
-          'imageURL': imageUrl,
+          'imageURL': hostel.imageUrl,
           'relatedImages': hostel.relatedImagesUrls,
           'price': hostel.price,
           'university': hostel.university,
-          'location': hostel.location,
+          'district': hostel.district,
+          'town': hostel.town,
           'description': hostel.description,
           'amenities': hostel.amenities,
           'contact': hostel.contactDetails,
@@ -52,9 +47,6 @@ class HostelStore {
         })
         .then((value) => print("Hostel Added"))
         .catchError((error) => print("Failed to add Hostel: $error"));
-
-
-    }
 
    
     final String hostelId = docRef.id;
@@ -83,7 +75,7 @@ class HostelStore {
           'relatedImages': hostel.relatedImagesUrls,
           'price': hostel.price,
           'university': hostel.university,
-          'location': hostel.location,
+          'location': hostel.town,
           'description': hostel.description,
           'amenities': hostel.amenities,
           'contact': hostel.contactDetails,

@@ -8,42 +8,46 @@ class Hostel {
   final List relatedImagesUrls;
   final int price;
   final String university;
-  final String location;
+  final String district;
+  final String town;
   final String description;
   final List amenities;
   final String contactDetails;
   final bool doubleRoomsAvailability;
   final bool singleRoomsAvailability;
+  final bool tripleRoomsAvailability;
 
   Hostel(
-      {
-      required this.name,
+      {required this.name,
       required this.imageUrl,
       required this.relatedImagesUrls,
       required this.price,
       required this.university,
-      required this.location,
+      required this.district,
+      required this.town,
       required this.description,
       required this.amenities,
       required this.contactDetails,
       required this.doubleRoomsAvailability,
+      required this.tripleRoomsAvailability,
       required this.singleRoomsAvailability});
 
   // converting objects from firestore to supported data types
 
   factory Hostel.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot
-  ) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return Hostel(
       name: data?['data'],
       imageUrl: data?['imageUrl'],
       price: data?['price'],
       university: data?['university'],
-      location: data?['location'],
+      district: data?['district'],
+      town: data?['town'],
       description: data?['description'],
       contactDetails: data?['contactDetails'],
       doubleRoomsAvailability: data?['doubleRoomsAvailability'],
+      tripleRoomsAvailability: data?['tripleRoomsAvailability'],
       singleRoomsAvailability: data?['singleRoomsAvailability'],
       amenities: (data?['amenities'] as Iterable?)?.toList() ?? [],
       relatedImagesUrls: (data?['relatedImageU'] as Iterable?)?.toList() ?? [],
@@ -58,11 +62,14 @@ class Hostel {
       if (imageUrl != null) "imageUrl": imageUrl,
       if (price != null) "price": price,
       if (university != null) "university": university,
-      if (location != null) "location": location,
+      if (district != null) "district": district,
+      if (town != null) "town": town,
       if (description != null) "description": description,
       if (contactDetails != null) "contactDetails": contactDetails,
       if (doubleRoomsAvailability != null)
         "doubleRoomsAvailability": doubleRoomsAvailability,
+      if (tripleRoomsAvailability != null)
+        "tripleRoomsAvailability": tripleRoomsAvailability,
       if (singleRoomsAvailability != null)
         "singleRoomsAvailability": singleRoomsAvailability,
       if (amenities != null) "amenities": amenities,
