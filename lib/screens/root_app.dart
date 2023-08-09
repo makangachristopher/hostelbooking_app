@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/screens/setting.dart';
+import 'package:hotel_booking/screens/details_screen.dart';
 import 'package:hotel_booking/theme/color.dart';
 import 'package:hotel_booking/utils/constant.dart';
 import 'package:hotel_booking/widgets/bottombar_item.dart';
