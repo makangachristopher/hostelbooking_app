@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking/screens/confirm_booking.dart';
 import '../theme.dart';
 
 class DetailPage extends StatelessWidget {
@@ -236,7 +237,12 @@ class DetailPage extends StatelessWidget {
             ),
             Spacer(),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ConfirmBookingPage()),
+                );
+              },
               color: purpleColor,
               minWidth: 196,
               height: 50,
