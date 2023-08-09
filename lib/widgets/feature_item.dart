@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotel_booking/theme/color.dart';
 import 'package:hotel_booking/widgets/favorite_box.dart';
 import 'custom_image.dart';
+import '../screens/details_screen.dart';
 
 class FeatureItem extends StatelessWidget {
   const FeatureItem({
@@ -22,7 +23,12 @@ class FeatureItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DetailPage()),
+        );
+      },
       child: Container(
         width: width,
         height: height,
