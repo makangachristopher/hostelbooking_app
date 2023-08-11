@@ -12,7 +12,8 @@ class Hostel {
   final String town;
   final String description;
   final List amenities;
-  final String contactDetails;
+  final String manager;
+  final String contact;
   final bool doubleRoomsAvailability;
   final bool singleRoomsAvailability;
   final bool tripleRoomsAvailability;
@@ -27,7 +28,8 @@ class Hostel {
       required this.town,
       required this.description,
       required this.amenities,
-      required this.contactDetails,
+      required this.manager,
+      required this.contact,
       required this.doubleRoomsAvailability,
       required this.tripleRoomsAvailability,
       required this.singleRoomsAvailability});
@@ -45,7 +47,8 @@ class Hostel {
       district: data?['district'],
       town: data?['town'],
       description: data?['description'],
-      contactDetails: data?['contactDetails'],
+      contact: data?['contact'],
+      manager: data?['manager'],
       doubleRoomsAvailability: data?['doubleRoomsAvailability'],
       tripleRoomsAvailability: data?['tripleRoomsAvailability'],
       singleRoomsAvailability: data?['singleRoomsAvailability'],
@@ -65,7 +68,8 @@ class Hostel {
       if (district != null) "district": district,
       if (town != null) "town": town,
       if (description != null) "description": description,
-      if (contactDetails != null) "contactDetails": contactDetails,
+      if (contact != null) "contactDetails": contact,
+      if (manager != null) "manager": manager,
       if (doubleRoomsAvailability != null)
         "doubleRoomsAvailability": doubleRoomsAvailability,
       if (tripleRoomsAvailability != null)

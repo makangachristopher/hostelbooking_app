@@ -29,6 +29,13 @@
             {
               "client_id": "275534874189-hlkhp77jsntjqd37dc2g8nfog769caq5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "275534874189-h298vq07c5o3uusvpmis365mavfebf90.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "groupsix.com"
+              }
             }
           ]
         }
