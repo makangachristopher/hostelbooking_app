@@ -21,6 +21,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
+<<<<<<< HEAD
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for android - '
           'try to add using FlutLab Firebase Configuration',
@@ -30,6 +31,11 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for iOS - '
           'try to add using FlutLab Firebase Configuration',
         );
+=======
+        return android;
+      case TargetPlatform.iOS:
+        return ios;
+>>>>>>> chris
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -60,4 +66,25 @@ class DefaultFirebaseOptions {
     messagingSenderId: '275534874189',
     appId: '1:275534874189:web:c4db693ec70dad6431be04'
   );
+<<<<<<< HEAD
+=======
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBqW8CbQ4en0HzYSdwvVc5QjHNSDLXg50c',
+    iosBundleId: 'groupsix.com',
+    appId: '1:275534874189:ios:7e8db9c8f2c291d831be04',
+    storageBucket: 'hostelbooking-9bdbd.appspot.com',
+    messagingSenderId: '275534874189',
+    iosClientId: '275534874189-h298vq07c5o3uusvpmis365mavfebf90.apps.googleusercontent.com',
+    projectId: 'hostelbooking-9bdbd'
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBcXq5bXEuyfq6yjzsYv7blN43uewYHn6c',
+    appId: '1:275534874189:android:006e8dbd9079da5431be04',
+    messagingSenderId: '275534874189',
+    projectId: 'hostelbooking-9bdbd',
+    storageBucket: 'hostelbooking-9bdbd.appspot.com'
+  );
+>>>>>>> chris
 }

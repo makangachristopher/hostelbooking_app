@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "275534874189",
+    "project_id": "hostelbooking-9bdbd",
+    "storage_bucket": "hostelbooking-9bdbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275534874189:android:006e8dbd9079da5431be04",
+        "android_client_info": {
+          "package_name": "goupsix.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275534874189-hlkhp77jsntjqd37dc2g8nfog769caq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcXq5bXEuyfq6yjzsYv7blN43uewYHn6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275534874189-hlkhp77jsntjqd37dc2g8nfog769caq5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "275534874189-h298vq07c5o3uusvpmis365mavfebf90.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "groupsix.com"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,8 @@ import '../services/dataBase/hostel_store.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'root_app.dart';
 
 class AddHostelScreen extends StatefulWidget {
   const AddHostelScreen({Key? key}) : super(key: key);
@@ -22,13 +24,15 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
   late String district;
   late String town;
   late String description;
-  late List amenities;
-  late String contactDetails;
+  late List amenities = [];
+  late String contact;
+  late String manager;
   late bool doubleRoomsAvailability = false;
   late bool singleRoomsAvailability = false;
   late bool tripleRoomsAvailability = false;
-  late File _imageFile;
-  late String _imageUrl = '/path/to/file';
+  File? _imageFile = null;
+  late String _imageUrl =
+      'https://i0.wp.com/www.artisthostel.ru/wp-content/uploads/2017/09/8704858-1.jpg';
   List<XFile> _pickedImages = [];
 
   final firebase_storage.FirebaseStorage _storage =
@@ -84,7 +88,11 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
 
   // A function to create a new hostel object from the input form
   void _addHostel() async {
-    imageUrl = await hostelFirebaseService.uploadImage(_imageFile);
+    if (_imageFile != null) {
+      imageUrl = await hostelFirebaseService.uploadImage(_imageFile!);
+    } else {
+      print('Image can not be null');
+    }
     relatedImagesUrls = await _uploadImagesToCloudStorage();
 
     if (name.isNotEmpty) {
@@ -97,7 +105,8 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
         town: town,
         description: description,
         amenities: amenities,
-        contactDetails: contactDetails,
+        contact: contact,
+        manager: manager,
         university: university,
         doubleRoomsAvailability: doubleRoomsAvailability,
         tripleRoomsAvailability: tripleRoomsAvailability,
@@ -148,6 +157,10 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
       form.save();
       print('Form is valid. Name: $name, Price: $price');
       _addHostel();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RootApp()),
+      );
     } else {
       print('Form is invalid');
     }
@@ -157,196 +170,281 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Page'),
-      ),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          title: const Center(
+            child: Text(
+              'Add hostel',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Color(0xff4d01ca),
+              size: 15.0,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () => _showPicker(context),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: _imageFile != null
-                        ? FileImage(_imageFile!) as ImageProvider<Object>?
-                        : NetworkImage(_imageUrl),
+            child: SizedBox(
+              height: 1200, // Set a finite height
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: GestureDetector(
+                      onTap: () => _showPicker(context),
+                      child: _imageFile != null
+                          ? (kIsWeb
+                              ? Image.network(_imageUrl,
+                                  fit: BoxFit
+                                      .cover) // For web, use Image.network
+                              : Image.file(_imageFile!,
+                                  fit: BoxFit
+                                      .cover)) // For mobile, use Image.file
+                          : Center(
+                              child: Text('Add Image'),
+                            ),
+                    ),
                   ),
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Name'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    name = value!;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Price'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a price';
-                    }
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Name'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      name = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Price'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a price';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    price = int.parse(value!);
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'District'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a District';
-                    }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      price = int.parse(value!);
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Description'),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a description';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    district = value!;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'City/Town/Village'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a city or town or village';
-                    }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      description = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'District'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a District';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    town = value!;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Description'),
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a description';
-                    }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      district = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'City/Town/Village'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a city or town or village';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    description = value!;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Amenities'),
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter amenities';
-                    }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      town = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'University'),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a university';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    setState(() {
-                      amenities.add(value!);
-                    });
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Contact Details'),
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter contact details';
-                    }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      university = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Manager\'s name'),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter the Manager\'s name';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    contactDetails = value!;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'University'),
-                  maxLines: 3,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a university';
-                    }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      manager = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Contact Details'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter contact details';
+                      }
 
-                    return null;
-                  },
-                  onSaved: (value) {
-                    university = value!;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: doubleRoomsAvailability,
-                      onChanged: (newValue) {
-                        setState(() {
-                          doubleRoomsAvailability = newValue!;
-                        });
+                      return null;
+                    },
+                    onSaved: (value) {
+                      contact = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Amenities'),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter amenities';
+                      }
+
+                      return null;
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        amenities.add(value!);
+                      });
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: doubleRoomsAvailability,
+                        onChanged: (newValue) {
+                          setState(() {
+                            doubleRoomsAvailability = newValue!;
+                          });
+                        },
+                      ),
+                      Text('Double rooms available?'),
+                    ],
+                  ),
+                  SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: singleRoomsAvailability,
+                        onChanged: (newValue) {
+                          setState(() {
+                            singleRoomsAvailability = newValue!;
+                          });
+                        },
+                      ),
+                      Text('Single rooms available'),
+                    ],
+                  ),
+                  SizedBox(height: 16.0),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: tripleRoomsAvailability,
+                        onChanged: (newValue) {
+                          setState(() {
+                            tripleRoomsAvailability = newValue!;
+                          });
+                        },
+                      ),
+                      Text('Triple rooms available'),
+                    ],
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _pickImages,
+                    child: Text('Pick Images'),
+                  ),
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, // Number of items in each row
+                      ),
+                      itemCount: _pickedImages.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _pickedImages
+                                  .removeAt(index); // Remove the selected image
+                            });
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                ),
+                                child: Image.file(
+                                  File(_pickedImages[index].path),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                     ),
-                    Text('Double rooms available?'),
-                  ],
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: singleRoomsAvailability,
-                      onChanged: (newValue) {
-                        setState(() {
-                          singleRoomsAvailability = newValue!;
-                        });
-                      },
-                    ),
-                    Text('Single rooms available'),
-                  ],
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: tripleRoomsAvailability,
-                      onChanged: (newValue) {
-                        setState(() {
-                          tripleRoomsAvailability = newValue!;
-                        });
-                      },
-                    ),
-                    Text('Triple rooms available'),
-                  ],
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _pickImages,
-                  child: Text('Pick other Images'),
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  child: Text('Upload'),
-                  onPressed: validateAndSave,
-                ),
-              ],
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    child: Text('Upload'),
+                    onPressed: validateAndSave,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

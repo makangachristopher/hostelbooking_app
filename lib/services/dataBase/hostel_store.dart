@@ -41,7 +41,8 @@ class HostelStore {
           'town': hostel.town,
           'description': hostel.description,
           'amenities': hostel.amenities,
-          'contact': hostel.contactDetails,
+          'contact': hostel.contact,
+          'manager': hostel.manager,
           'doubleRoomsAvailability': hostel.doubleRoomsAvailability,
           'singleRoomsAvailability': hostel.singleRoomsAvailability,
         })
@@ -77,7 +78,8 @@ class HostelStore {
           'location': hostel.town,
           'description': hostel.description,
           'amenities': hostel.amenities,
-          'contact': hostel.contactDetails,
+          'contact': hostel.contact,
+          'manager': hostel.manager,
           'doubleRoomsAvailability': hostel.doubleRoomsAvailability,
           'singleRoomsAvailability': hostel.singleRoomsAvailability,
         })
