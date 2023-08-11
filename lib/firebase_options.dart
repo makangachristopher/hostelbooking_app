@@ -21,21 +21,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-<<<<<<< HEAD
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'try to add using FlutLab Firebase Configuration',
-        );
-      case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for iOS - '
-          'try to add using FlutLab Firebase Configuration',
-        );
-=======
         return android;
       case TargetPlatform.iOS:
         return ios;
->>>>>>> chris
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -66,8 +54,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '275534874189',
     appId: '1:275534874189:web:c4db693ec70dad6431be04'
   );
-<<<<<<< HEAD
-=======
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBqW8CbQ4en0HzYSdwvVc5QjHNSDLXg50c',
@@ -86,5 +72,4 @@ class DefaultFirebaseOptions {
     projectId: 'hostelbooking-9bdbd',
     storageBucket: 'hostelbooking-9bdbd.appspot.com'
   );
->>>>>>> chris
 }
