@@ -27,12 +27,12 @@ class UserStore {
 // A function to add a hostel to firestore
 
   Future<void> addUser(User user) async {
-    final DocumentReference docRef = _firestore.collection('users').doc();
-
     await _firestore
         .collection('users')
         .add({
+          'uid': user.uid,
           'name': user.name,
+          'sex': user.sex,
           'email': user.email,
           'userType': user.userType,
           'imageUrl': user.imageUrl,
@@ -44,9 +44,6 @@ class UserStore {
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
-
-    final String user_id = docRef.id;
-    user.uid = user_id;
   }
 
   // A function to fetch hostels from firestore
@@ -68,6 +65,7 @@ class UserStore {
         .update({
           'name': user.name,
           'email': user.email,
+          'sex': user.sex,
           'userType': user.userType,
           'imageUrl': user.imageUrl,
           'phoneNumber': user.phoneNumber,

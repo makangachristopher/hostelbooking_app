@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
-  String? uid;
+  final String uid;
   final String name;
+  String? sex;
   final String email;
   final String userType;
   String? imageUrl;
@@ -14,10 +15,12 @@ class User {
 
   User(
       {this.imageUrl,
+      this.sex,
       this.otherphoneNumber,
       this.location,
       this.hostelID,
       this.workArea,
+      required this.uid,
       required this.name,
       required this.email,
       required this.userType,
@@ -28,7 +31,9 @@ class User {
   factory User.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return User(
+      uid: data?['uid'],
       name: data?['name'],
+      sex: data?['sex'],
       email: data?['email'],
       userType: data?['user Type'],
       phoneNumber: data?['phone Number'],
