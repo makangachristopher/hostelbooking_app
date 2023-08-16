@@ -185,7 +185,8 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
               size: 15.0,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => RootApp()));
             },
           )),
       body: Padding(
@@ -194,7 +195,7 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
           key: _formKey,
           child: SingleChildScrollView(
             child: SizedBox(
-              height: 1200, // Set a finite height
+              height: 1300, // Set a finite height
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
