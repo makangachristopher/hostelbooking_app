@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hostel_booking/screens/confirm_booking.dart';
 import '../theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);
+  void _launchPhone(String phoneNumber) async {
+    if (await canLaunch(phoneNumber)) {
+      await launch(phoneNumber);
+    } else {
+      throw 'Could not launch $phoneNumber';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +88,7 @@ class DetailPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Text(
-                          "Listing Agent",
+                          "Manager",
                           style: sectionSecondaryTitle,
                         ),
                       ),
@@ -100,11 +108,11 @@ class DetailPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "De Kezia",
+                                  "Mr Ahumuza",
                                   style: contentTitle,
                                 ),
                                 Text(
-                                  "House Owner",
+                                  "Hostel Manager",
                                   style: infoText,
                                 ),
                               ],
@@ -121,7 +129,9 @@ class DetailPage extends StatelessWidget {
                                 ),
                                 SizedBox(width: 10),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    _launchPhone("tel:0703103834");
+                                  },
                                   child: Image.asset(
                                     "assets/images/call_icon.png",
                                     width: 30,

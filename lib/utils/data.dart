@@ -35,7 +35,7 @@ List<String> albumImages = [
 List features = [
   {
     "id": 100,
-    "name": "Single Room",
+    "name": "Olympia Hostel",
     "image":
         "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 800,000",
@@ -49,7 +49,7 @@ List features = [
   },
   {
     "id": 101,
-    "name": "Tripple Room",
+    "name": "Akamwesi Hostel",
     "image":
         "https://images.unsplash.com/photo-1505692952047-1a78307da8f2?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 450,000",
@@ -63,7 +63,7 @@ List features = [
   },
   {
     "id": 102,
-    "name": "Double Room",
+    "name": "Bavana Hostel",
     "image":
         "https://images.unsplash.com/photo-1618221118493-9cfa1a1c00da?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 650,000",
@@ -77,7 +77,7 @@ List features = [
   },
   {
     "id": 103,
-    "name": "Single Room",
+    "name": "Nana Hostel",
     "image":
         "https://images.unsplash.com/photo-1571508601891-ca5e7a713859?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 1,200,000",
@@ -91,7 +91,7 @@ List features = [
   },
   {
     "id": 104,
-    "name": "Double Room",
+    "name": "Naru Hostel",
     "image":
         "https://images.unsplash.com/photo-1541123356219-284ebe98ae3b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 800,000",
@@ -105,7 +105,7 @@ List features = [
   },
   {
     "id": 105,
-    "name": "Tripple Room",
+    "name": "God is able Hostel",
     "image":
         "https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 650,000",
@@ -122,7 +122,7 @@ List features = [
 List recommends = [
   {
     "id": 110,
-    "name": "Single Room",
+    "name": "Premium Hostel",
     "image":
         "https://images.unsplash.com/photo-1541123356219-284ebe98ae3b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 1,200,000",
@@ -136,7 +136,7 @@ List recommends = [
   },
   {
     "id": 111,
-    "name": "Double Room",
+    "name": "David's Ark Hostel",
     "image":
         "https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 800,000",
@@ -150,7 +150,7 @@ List recommends = [
   },
   {
     "id": 112,
-    "name": "Tripple Room",
+    "name": "Highfield Hostel",
     "image":
         "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTF8fGZhc2hpb258ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "price": "\UGX 650,000",
