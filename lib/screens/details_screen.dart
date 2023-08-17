@@ -149,7 +149,7 @@ class DetailPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Text(
-                          "House Facilities",
+                          "Hostel Facilities",
                           style: sectionSecondaryTitle,
                         ),
                       ),
