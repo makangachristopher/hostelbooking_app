@@ -4,6 +4,7 @@ import 'firebase_options.dart';
 import 'screens/root_app.dart';
 import 'theme/color.dart';
 import 'screens/addHostel_screen.dart';
+import 'screens/splashscreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: AppColor.primary,
       ),
-      home: const AddHostelScreen(),
+      home: SplashScreen(),
     );
   }
 }
