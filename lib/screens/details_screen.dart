@@ -1,16 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:hostel_booking/screens/confirm_booking.dart';
 import '../theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:hostel_booking/screens/confirm_booking.dart';
+import 'reviews_screen.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
+
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  double _rating = 0;
+  TextEditingController _reviewController = TextEditingController();
+  bool _hasReviewed = false;
   void _launchPhone(String phoneNumber) async {
     if (await canLaunch(phoneNumber)) {
       await launch(phoneNumber);
     } else {
       throw 'Could not launch $phoneNumber';
     }
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text('Hostel Details'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReviewsScreen(
+                    hostelName: "Modern House"), // Pass the hostel name here
+              ),
+            );
+          },
+          icon: Icon(Icons.reviews),
+        ),
+      ],
+    );
+  }
+
+  void _submitReview() {
+    if (_reviewController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please provide a review before submitting.")),
+      );
+      return;
+    }
+
+    Review newReview = Review(
+      rating: _rating,
+      reviewText: _reviewController.text,
+    );
+    _reviewController.clear();
+
+    setState(() {
+      _reviews.add(newReview);
+      _hasReviewed = true;
+    });
   }
 
   @override
@@ -72,7 +123,7 @@ class DetailPage extends StatelessWidget {
                               ],
                             ),
                             Spacer(),
-                            Row(
+                            /* Row(
                               children: [1, 2, 3, 4, 5].map((e) {
                                 return Icon(
                                   Icons.star,
@@ -80,7 +131,7 @@ class DetailPage extends StatelessWidget {
                                   color: (e <= 5) ? orangeColor : greyColor,
                                 );
                               }).toList(),
-                            )
+                            ) */
                           ],
                         ),
                       ),
@@ -178,27 +229,92 @@ class DetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      SizedBox(height: 24),
+                      // NOTE: description
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
+                          "Description",
+                          style: sectionSecondaryTitle,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: Text(
+                          "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
+                          style: descText,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+
+                      // Only show the review form if the user hasn't reviewed yet
+                      if (!_hasReviewed)
+                        Column(
+                          children: [
+                            TextField(
+                              controller: _reviewController,
+                              decoration: InputDecoration(
+                                hintText: 'Write a review',
+                                border: OutlineInputBorder(),
+                              ),
+                              maxLines: 5,
+                            ),
+                            RatingBar.builder(
+                              initialRating: _rating,
+                              minRating: 0,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 36,
+                              itemBuilder: (context, index) {
+                                return Icon(
+                                  Icons.star,
+                                  color: index <= _rating
+                                      ? Colors.amber
+                                      : Colors.grey,
+                                );
+                              },
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  _rating = rating;
+                                });
+                              },
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                _submitReview();
+                              },
+                              child: Text('Submit Review'),
+                            ),
+                          ],
+                        ),
+
+                      // Show the reviews
+                      for (Review review in _reviews)
+                        ListTile(
+                          title: Row(
+                            children: [
+                              Text('Rating: '),
+                              Row(
+                                children: List.generate(5, (index) {
+                                  return Icon(
+                                    Icons.star,
+                                    color: index < review.rating
+                                        ? Colors.amber
+                                        : Colors.grey,
+                                  );
+                                }),
+                              ),
+                            ],
+                          ),
+                          subtitle: Text(review.reviewText),
+                        ),
+
+                      SizedBox(height: 110),
                     ],
                   ),
                 ),
-                SizedBox(height: 24),
-                // NOTE: description
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Description",
-                    style: sectionSecondaryTitle,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
-                    style: descText,
-                  ),
-                ),
-                SizedBox(height: 110),
               ],
             ),
             // NOTE: button back
@@ -275,6 +391,15 @@ class DetailPage extends StatelessWidget {
     );
   }
 }
+
+class Review {
+  final double rating;
+  final String reviewText;
+
+  Review({required this.rating, required this.reviewText});
+}
+
+List<Review> _reviews = []; // List to store reviews
 
 // Facilities Card
 class FacilityCard extends StatelessWidget {
