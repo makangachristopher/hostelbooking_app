@@ -1,3 +1,10 @@
+import 'package:hostel_booking/models/user_models.dart';
+import 'package:hostel_booking/services/dataBase/hostel_store.dart';
+import 'package:hostel_booking/services/dataBase/user_store.dart';
+
+UserStore user = UserStore();
+HostelStore hostel = HostelStore();
+
 var profile = {
   "name": "Ahumuza",
   "image": "https://avatars.githubusercontent.com/u/86506519?v=4",

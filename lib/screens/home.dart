@@ -1,12 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+// import 'package:hostel_booking/services/dataBase/user_store.dart';
 import 'package:hostel_booking/theme/color.dart';
 import 'package:hostel_booking/utils/data.dart';
 import 'package:hostel_booking/widgets/city_item.dart';
 import 'package:hostel_booking/widgets/feature_item.dart';
 import 'package:hostel_booking/widgets/notification_box.dart';
 import 'package:hostel_booking/widgets/recommend_item.dart';
-import 'package:hostel_booking/widgets/drawer.dart';
+import 'package:hostel_booking/services/dataBase/hostel_store.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:hostel_booking/widgets/drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,7 +19,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+// UserStore userList = UserStore();
+//
+
   @override
+  void initState() {
+    super.initState();
+    fetchHostels();
+  }
+
+  Future<void> fetchHostels() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
+
+      List<dynamic> dataList =
+          querySnapshot.docs.map((doc) => doc.data()).toList();
+      print('Fetched Data List: $dataList');
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
@@ -132,6 +156,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void hostelList() async {
+    HostelStore hostel = HostelStore();
+    Future<List<dynamic>> hostelData = hostel.getHostels();
+    List<dynamic> feature = await hostelData;
+    print(feature);
   }
 
   _buildFeatured() {
