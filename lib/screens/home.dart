@@ -6,6 +6,7 @@ import 'package:hostel_booking/widgets/city_item.dart';
 import 'package:hostel_booking/widgets/feature_item.dart';
 import 'package:hostel_booking/widgets/notification_box.dart';
 import 'package:hostel_booking/widgets/recommend_item.dart';
+import 'package:hostel_booking/widgets/drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
