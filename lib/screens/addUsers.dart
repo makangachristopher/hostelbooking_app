@@ -30,7 +30,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   late String hostelID;
   late String uid;
   List<String> userTypes = ['Administrator', 'Student', 'Broker', 'Manager'];
-  late String selectedHostelID = 'c4c5ZA2UEBE0I2f2oxLq';
+  late String selectedHostelID = ' c4c5ZA2UEBE0I2f2oxLq';
   List<Hostel> hostels = [];
   bool isLoading = true;
 
@@ -53,7 +53,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
       });
       // Print the names of the fetched hostels
       for (Hostel hostel in hostels) {
-        print('Hostel Name: ${hostel.name}');
+        print('Hostel Name: ${hostel.name} ${hostel.hostelID}');
       }
     } catch (e) {
       print('Error fetching data: $e');
@@ -321,11 +321,13 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       },
                       items: hostels
                           .map<DropdownMenuItem<String>>((Hostel hostel) {
-                        return DropdownMenuItem<String>(
-                          value: hostel.name,
-                          child: Text(hostel.hostelID.toString()),
-                        );
-                      }).toList(),
+                            return DropdownMenuItem<String>(
+                              value: hostel.hostelID,
+                              child: Text(hostel.name),
+                            );
+                          })
+                          .toSet()
+                          .toList(),
                     ),
               SizedBox(
                 height: 20,

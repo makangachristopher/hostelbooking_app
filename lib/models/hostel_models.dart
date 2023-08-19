@@ -19,7 +19,8 @@ class Hostel {
   final bool tripleRoomsAvailability;
 
   Hostel(
-      {required this.name,
+      {this.hostelID,
+      required this.name,
       required this.imageUrl,
       required this.relatedImagesUrls,
       required this.price,
@@ -40,6 +41,7 @@ class Hostel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return Hostel(
+      hostelID: data?['hostelID'],
       name: data?['name'],
       imageUrl: data?['imageUrl'],
       price: data?['price'],
