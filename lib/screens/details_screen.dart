@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hostel_booking/screens/confirm_booking.dart';
 import '../theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'addHostel_screen.dart';
+import 'addUsers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -199,6 +201,35 @@ class DetailPage extends StatelessWidget {
                     "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
                     style: descText,
                   ),
+                ),
+                SizedBox(height: 10),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddHostelScreen()),
+                            );
+                          },
+                          child: Text('Add Hostel'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddUserScreen()),
+                            );
+                          },
+                          child: Text('Add User'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 SizedBox(height: 110),
               ],
