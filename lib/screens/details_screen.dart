@@ -340,6 +340,7 @@ class _DetailPageState extends State<DetailPage> {
                 Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           onPressed: () {
@@ -351,6 +352,7 @@ class _DetailPageState extends State<DetailPage> {
                           },
                           child: Text('Add Hostel'),
                         ),
+                        SizedBox(width: 20), // Add space between buttons
                         ElevatedButton(
                           onPressed: () {
                             Navigator.push(
@@ -365,6 +367,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ],
                 ),
+
                 SizedBox(height: 110),
               ],
             ),
