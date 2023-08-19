@@ -46,7 +46,7 @@ class UserStore {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  // A function to fetch hostels from firestore
+  // A function to fetch user from firestore
 
   Future<List> getUsers() async {
     final QuerySnapshot snapshot = await _firestore.collection('users').get();
@@ -56,7 +56,7 @@ class UserStore {
         .toList();
   }
 
-  // Updating hostel information
+  // Updating user information
 
   Future<void> updateUser(User user) async {
     await _firestore
@@ -78,7 +78,7 @@ class UserStore {
         .catchError((error) => print("Failed to update user: $error"));
   }
 
-  // Deleting a hostel.
+  // Deleting a user.
   Future<void> deleteUser(User user) async {
     await _firestore.collection('hostels').doc(user.uid).delete();
   }

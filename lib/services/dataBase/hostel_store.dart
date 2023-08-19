@@ -27,30 +27,41 @@ class HostelStore {
 // A function to add a hostel to firestore
 
   Future<void> addHostel(Hostel hostel) async {
-    final DocumentReference docRef = _firestore.collection('hostels').doc();
+    try {
+      // Create a new document reference with an automatically generated ID
+      final DocumentReference docRef = _firestore.collection('hostels').doc();
 
-    await _firestore
-        .collection('hostels')
-        .add({
-          'name': hostel.name,
-          'imageURL': hostel.imageUrl,
-          'relatedImages': hostel.relatedImagesUrls,
-          'price': hostel.price,
-          'university': hostel.university,
-          'district': hostel.district,
-          'town': hostel.town,
-          'description': hostel.description,
-          'amenities': hostel.amenities,
-          'contact': hostel.contact,
-          'manager': hostel.manager,
-          'doubleRoomsAvailability': hostel.doubleRoomsAvailability,
-          'singleRoomsAvailability': hostel.singleRoomsAvailability,
-        })
-        .then((value) => print("Hostel Added"))
-        .catchError((error) => print("Failed to add Hostel: $error"));
+      // Get the auto-generated ID
+      final String hostelId = docRef.id;
 
-    final String hostelId = docRef.id;
-    hostel.hostelID = hostelId;
+      // Update the hostel object with the generated ID
+      hostel.hostelID = hostelId;
+
+      // Create a map with the hostel data including the generated ID
+      Map<String, dynamic> hostelData = {
+        'name': hostel.name,
+        'imageURL': hostel.imageUrl,
+        'relatedImages': hostel.relatedImagesUrls,
+        'price': hostel.price,
+        'university': hostel.university,
+        'district': hostel.district,
+        'town': hostel.town,
+        'description': hostel.description,
+        'amenities': hostel.amenities,
+        'contact': hostel.contact,
+        'manager': hostel.manager,
+        'doubleRoomsAvailability': hostel.doubleRoomsAvailability,
+        'singleRoomsAvailability': hostel.singleRoomsAvailability,
+        'hostelID': hostelId, // Include the generated ID in the data
+      };
+
+      // Save the hostel data to Firestore using the document reference
+      await docRef.set(hostelData);
+
+      print('Hostel Added');
+    } catch (e) {
+      print('Failed to add Hostel: $e');
+    }
   }
 
   // A function to fetch hostels from firestore

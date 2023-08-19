@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hostel_booking/screens/addHostel_screen.dart';
+import 'package:hostel_booking/screens/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -17,6 +17,6 @@ class SplashScreen extends StatelessWidget {
     await Future.delayed(
         Duration(seconds: 3)); // Simulate splash screen duration
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => AddHostelScreen()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => LoginScreen()));
   }
 }

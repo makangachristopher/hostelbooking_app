@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hostel_booking/screens/setting.dart';
 import 'package:hostel_booking/theme/color.dart';
 import 'package:hostel_booking/utils/constant.dart';
-import 'package:hostel_booking/widgets/bottombar_item.dart';
+// import 'package:hostel_booking/widgets/bottombar_item.dart';
 
 import 'home.dart';
 
