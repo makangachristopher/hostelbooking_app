@@ -56,8 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'assets/images/hostel_hub.png',
-                height: 120.0,
+                'assets/images/HostelHub.png',
+                height: 150.0,
               ),
               SizedBox(height: 30.0),
               Form(
