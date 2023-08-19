@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:hostel_booking/models/hostel_models.dart';
 // import 'package:hostel_booking/services/dataBase/user_store.dart';
 import 'package:hostel_booking/theme/color.dart';
 import 'package:hostel_booking/utils/data.dart';
@@ -33,9 +34,15 @@ class _HomePageState extends State<HomePage> {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
 
-      List<dynamic> dataList =
-          querySnapshot.docs.map((doc) => doc.data()).toList();
-      print('Fetched Data List: $dataList');
+      List<Hostel> dataList = querySnapshot.docs
+          .map((doc) => Hostel.fromFirestore(
+              doc as DocumentSnapshot<Map<String, dynamic>>))
+          .toList();
+
+      // Print the names of the fetched hostels
+      for (Hostel hostel in dataList) {
+        print('Hostel Name: ${hostel.name}');
+      }
     } catch (e) {
       print('Error fetching data: $e');
     }

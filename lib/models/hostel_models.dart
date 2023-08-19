@@ -40,7 +40,7 @@ class Hostel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return Hostel(
-      name: data?['data'],
+      name: data?['name'],
       imageUrl: data?['imageUrl'],
       price: data?['price'],
       university: data?['university'],
@@ -52,8 +52,12 @@ class Hostel {
       doubleRoomsAvailability: data?['doubleRoomsAvailability'],
       tripleRoomsAvailability: data?['tripleRoomsAvailability'],
       singleRoomsAvailability: data?['singleRoomsAvailability'],
-      amenities: (data?['amenities'] as Iterable?)?.toList() ?? [],
-      relatedImagesUrls: (data?['relatedImageU'] as Iterable?)?.toList() ?? [],
+      amenities: data?['amenities'] is Iterable
+          ? (data?['amenities'] as Iterable).toList()
+          : [data?['amenities']],
+      relatedImagesUrls: data?['relatedImagesUrls'] is Iterable
+          ? (data?['relatedImagesUrls'] as Iterable).toList()
+          : [data?['relatedImagesUrls']],
     );
   }
 

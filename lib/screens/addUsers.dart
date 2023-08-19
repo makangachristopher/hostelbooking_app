@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:hostel_booking/utils/hostelList.dart';
 import 'package:hostel_booking/models/hostel_models.dart';
 import 'package:hostel_booking/services/dataBase/hostel_store.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   late String uid;
   List<String> userTypes = ['Administrator', 'Student', 'Broker', 'Manager'];
   late String selectedHostelID = 'c4c5ZA2UEBE0I2f2oxLq';
-  List hostels = [];
+  List<Hostel> hostels = [];
   bool isLoading = true;
 
   File? _profilePhoto;
@@ -39,17 +40,21 @@ class _AddUserScreenState extends State<AddUserScreen> {
   bool _isLoading = false;
 
   Future<void> fetchHostels() async {
-    // Fetch hostels using HostelStore or your own implementation
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
 
-      hostels = querySnapshot.docs.map((doc) => doc.data()).toList();
-      print('Fetched hostel List: $hostels');
-      hostels = hostels.toSet().toList();
+      hostels = querySnapshot.docs
+          .map((doc) => Hostel.fromFirestore(
+              doc as DocumentSnapshot<Map<String, dynamic>>))
+          .toList();
       setState(() {
         isLoading = false;
-      }); // Refresh the UI after fetching
+      });
+      // Print the names of the fetched hostels
+      for (Hostel hostel in hostels) {
+        print('Hostel Name: ${hostel.name}');
+      }
     } catch (e) {
       print('Error fetching data: $e');
     }
@@ -66,7 +71,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     final password = _passwordController.text.trim();
 
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
 
     try {
@@ -315,14 +320,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         });
                       },
                       items: hostels
-                          .map<DropdownMenuItem<String>>((dynamic hostel) {
-                            return DropdownMenuItem<String>(
-                              value: hostel['hostelID'],
-                              child: Text(hostel['name']),
-                            );
-                          })
-                          .toSet()
-                          .toList(),
+                          .map<DropdownMenuItem<String>>((Hostel hostel) {
+                        return DropdownMenuItem<String>(
+                          value: hostel.name,
+                          child: Text(hostel.hostelID.toString()),
+                        );
+                      }).toList(),
                     ),
               SizedBox(
                 height: 20,
