@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'login_screen.dart';
 import 'root_app.dart';
@@ -21,16 +21,19 @@ class _SignupScreenState extends State<SignupScreen> {
   final _phoneNumberController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  late String imageUrl;
 
   File? _profilePhoto;
 
   String _errorMessage = '';
   bool _isLoading = false;
 
+  final firebase_storage.FirebaseStorage _storage =
+      firebase_storage.FirebaseStorage.instance;
+
   Future<void> _signup() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
-    final phoneNumber = _phoneNumberController.text.trim();
     final firstName = _firstNameController.text.trim();
     final lastName = _lastNameController.text.trim();
 
@@ -48,23 +51,32 @@ class _SignupScreenState extends State<SignupScreen> {
       final user = userCredential.user;
       final userId = user!.uid;
 
+      if (_profilePhoto != null) {
+        final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        final destination = 'user_images/$fileName';
+
+        try {
+          await _storage.ref(destination).putFile(_profilePhoto!);
+          imageUrl = await _storage.ref(destination).getDownloadURL();
+        } catch (e) {
+          print('Error uploading image to firebase: $e');
+        }
+        ;
+      } else {
+        imageUrl =
+            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg';
+      }
+
       // Add Firestore write to store user data
       await FirebaseFirestore.instance.collection('users').doc(userId).set({
         'email': email,
-        'phoneNumber': phoneNumber,
         'firstName': firstName,
         'lastName': lastName,
+        'userType': 'Student',
+        'imageUrl': imageUrl,
+        'uid': userId,
         // ... Add other user data fields here ...
       });
-
-      if (_profilePhoto != null) {
-        final ref = FirebaseStorage.instance.ref().child('users').child(userId);
-
-        await ref.putFile(_profilePhoto!);
-        final downloadUrl = await ref.getDownloadURL();
-
-        await user.updatePhotoURL(downloadUrl);
-      }
 
       await user.updateDisplayName('$firstName $lastName');
 

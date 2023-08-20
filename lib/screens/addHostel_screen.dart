@@ -401,45 +401,6 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
                       onPressed: _pickImages,
                       child: Text('Pick Images'),
                     ),
-                    SizedBox(height: 20),
-                    Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, // Number of items in each row
-                        ),
-                        itemCount: _pickedImages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _pickedImages.removeAt(
-                                    index); // Remove the selected image
-                              });
-                            },
-                            child: Stack(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                  ),
-                                  child: Image.file(
-                                    File(_pickedImages[index].path),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       child: Text('Upload'),

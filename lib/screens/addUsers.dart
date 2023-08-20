@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:hostel_booking/screens/root_app.dart';
 import 'package:hostel_booking/utils/hostelList.dart';
 import 'package:hostel_booking/models/hostel_models.dart';
 import 'package:hostel_booking/services/dataBase/hostel_store.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AddUserScreen extends StatefulWidget {
   @override
@@ -18,16 +20,16 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  late String name;
+  late String name = '';
   late String? sex = '';
-  late String email;
+  late String email = '';
   late String userType = 'Manager';
   late String imageUrl;
-  late int phoneNumber;
-  late int otherphoneNumber;
-  late String location;
-  late String workArea;
-  late String hostelID;
+  late int phoneNumber = 0;
+  late int otherphoneNumber = 0;
+  late String location = '';
+  late String workArea = '';
+  late String hostelID = '';
   late String uid;
   List<String> userTypes = ['Administrator', 'Student', 'Broker', 'Manager'];
   late String selectedHostelID = ' c4c5ZA2UEBE0I2f2oxLq';
@@ -38,6 +40,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
   String _errorMessage = '';
   bool _isLoading = false;
+  final firebase_storage.FirebaseStorage _storage =
+      firebase_storage.FirebaseStorage.instance;
 
   Future<void> fetchHostels() async {
     try {
@@ -71,7 +75,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     final password = _passwordController.text.trim();
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     try {
@@ -85,20 +89,45 @@ class _AddUserScreenState extends State<AddUserScreen> {
       final userId = user!.uid;
 
       if (_profilePhoto != null) {
-        final ref = FirebaseStorage.instance.ref().child('users').child(userId);
+        final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        final destination = 'user_images/$fileName';
 
-        await ref.putFile(_profilePhoto!);
-        final downloadUrl = await ref.getDownloadURL();
+        try {
+          await _storage.ref(destination).putFile(_profilePhoto!);
+          imageUrl = await _storage.ref(destination).getDownloadURL();
+        } catch (e) {
+          print('Error uploading image to firebase: $e');
+        }
+        ;
+      } else {
+        imageUrl =
+            'https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg';
+      }
 
-        await user.updatePhotoURL(downloadUrl);
+      // Add Firestore write to store user data
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(userId).set({
+          'email': email,
+          'name': name,
+          'uid': userId,
+          'userType': userType,
+          'hostelID': selectedHostelID,
+          'imageUrl': imageUrl,
+          'phoneNumber': phoneNumber,
+          'otherPhoneNumber': otherphoneNumber,
+          'sex': sex,
+          'loaction': location,
+          'workArea': workArea,
+          // ... Add other user data fields here ...
+        });
+      } catch (e) {
+        print(e);
       }
 
       await user.updateDisplayName('$name');
 
       // Store additional user data, such as phone number, in a Firestore database
       // or in the Firebase Realtime Database.
-
-      Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
       setState(() {
         _errorMessage = e.message ?? 'An unknown error occurred';
@@ -118,6 +147,21 @@ class _AddUserScreenState extends State<AddUserScreen> {
       setState(() {
         _profilePhoto = File(pickedFile.path);
       });
+    }
+  }
+
+  void validateAndSave() {
+    final FormState? form = _formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      print('Form is valid. Name: $name, User Type: $userType');
+      _signup();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RootApp()),
+      );
+    } else {
+      print('Form is invalid');
     }
   }
 
@@ -176,7 +220,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   return null;
                 },
                 onSaved: (value) {
-                  name = value!;
+                  name = value.toString();
                 },
               ),
               SizedBox(height: 20.0),
@@ -366,9 +410,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   ? CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _signup();
-                        }
+                        validateAndSave();
                       },
                       child: Text('Register user'),
                     ),
