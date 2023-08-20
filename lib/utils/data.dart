@@ -49,7 +49,7 @@ List features = [
     "type": categories[1]["name"],
     "rate": "4.5",
     "location": "Kampala",
-    "is_favorited": false,
+    "is_favorited": true,
     "album_images": albumImages,
     "description":
         "Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document",

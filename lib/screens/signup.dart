@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'login_screen.dart';
 import 'root_app.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -47,6 +48,15 @@ class _SignupScreenState extends State<SignupScreen> {
       final user = userCredential.user;
       final userId = user!.uid;
 
+      // Add Firestore write to store user data
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'firstName': firstName,
+        'lastName': lastName,
+        // ... Add other user data fields here ...
+      });
+
       if (_profilePhoto != null) {
         final ref = FirebaseStorage.instance.ref().child('users').child(userId);
 
@@ -57,9 +67,6 @@ class _SignupScreenState extends State<SignupScreen> {
       }
 
       await user.updateDisplayName('$firstName $lastName');
-
-      // Store additional user data, such as phone number, in a Firestore database
-      // or in the Firebase Realtime Database.
 
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (_) => RootApp()));
