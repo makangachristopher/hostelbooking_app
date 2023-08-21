@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'addHostel_screen.dart';
 import 'addUsers.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hostel_booking/screens/confirm_booking.dart';
 import 'reviews_screen.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  const DetailPage({required this.hostelData});
+
+  final Map<String, dynamic> hostelData;
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -68,8 +71,18 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  List hostel = [];
+  bool isLoading = true;
+  Map<String, dynamic> selectedHostel = {};
+
   @override
+  void initState() {
+    super.initState();
+    selectedHostel = widget.hostelData;
+  }
+
   Widget build(BuildContext context) {
+    //  fetchHostels();
     return Scaffold(
       backgroundColor: whiteColor,
       body: SafeArea(
@@ -79,11 +92,26 @@ class _DetailPageState extends State<DetailPage> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 296,
-              child: Image.asset(
-                "assets/images/banner1.png",
-                height: 296,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
+              // child: Image.asset(
+              //   "assets/images/banner1.png",
+              //   height: 296,
+              //   width: MediaQuery.of(context).size.width,
+              //   fit: BoxFit.cover,
+              // ),
+              child: CachedNetworkImage(
+                imageUrl: selectedHostel['imageURL'],
+                placeholder: (context, url) => BlankImageWidget(),
+                errorWidget: (context, url, error) => BlankImageWidget(),
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 296,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               ),
             ),
             // NOTE: content
@@ -163,7 +191,7 @@ class _DetailPageState extends State<DetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Mr Ahumuza",
+                                  selectedHostel['manager'],
                                   style: contentTitle,
                                 ),
                                 Text(
@@ -246,7 +274,7 @@ class _DetailPageState extends State<DetailPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Text(
-                          "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
+                          selectedHostel['description'],
                           style: descText,
                         ),
                       ),
@@ -332,7 +360,7 @@ class _DetailPageState extends State<DetailPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
-                    "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
+                    selectedHostel['description'],
                     style: descText,
                   ),
                 ),
@@ -495,3 +523,85 @@ class FacilityCard extends StatelessWidget {
     );
   }
 }
+
+class BlankImageWidget extends StatefulWidget {
+  const BlankImageWidget({Key? key}) : super(key: key);
+
+  @override
+  _BlankImageWidgetState createState() => _BlankImageWidgetState();
+}
+
+class _BlankImageWidgetState extends State<BlankImageWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      elevation: 0.0,
+    );
+  }
+}
+
+// Future<void> fetchHostels() async {
+//     try {
+//       FirebaseFirestore firestore = FirebaseFirestore.instance;
+//       QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
+
+//       List<Map<String, dynamic>> dataList = querySnapshot.docs.map((doc) {
+//         Map<String, dynamic> hostelData = {};
+//         Map<String, dynamic>? docData = doc.data() as Map<String, dynamic>?;
+//         ; // Get the document's data
+
+//         if (docData != null) {
+//           if (docData.containsKey('name'))
+//             hostelData['name'] = docData['name'].toString();
+//           if (docData.containsKey('imageURL'))
+//             hostelData['imageURL'] = docData['imageURL'];
+//           if (docData.containsKey('relatedImagesUrls'))
+//             hostelData['relatedImagesUrls'] = docData['relatedImagesUrls'];
+//           if (docData.containsKey('price'))
+//             hostelData['price'] = docData['price'];
+//           if (docData.containsKey('district'))
+//             hostelData['district'] = docData['district'];
+//           if (docData.containsKey('town')) hostelData['town'] = docData['town'];
+//           if (docData.containsKey('description'))
+//             hostelData['description'] = docData['description'];
+//           if (docData.containsKey('amenities'))
+//             hostelData['amenities'] = docData['amenities'];
+//           if (docData.containsKey('contact'))
+//             hostelData['contact'] = docData['contact'];
+//           if (docData.containsKey('manager'))
+//             hostelData['manager'] = docData['manager'];
+//           if (docData.containsKey('university'))
+//             hostelData['university'] = docData['university'];
+//           if (docData.containsKey('doubleRoomsAvailability'))
+//             hostelData['doubleRoomsAvailability'] =
+//                 docData['doubleRoomsAvailability'];
+//           if (docData.containsKey('tripleRoomsAvailability'))
+//             hostelData['tripleRoomsAvailability'] =
+//                 docData['tripleRoomsAvailability'];
+//           if (docData.containsKey('singleRoomsAvailability'))
+//             hostelData['singleRoomsAvailability'] =
+//                 docData['singleRoomsAvailability'];
+//         }
+
+//         return hostelData;
+//       }).toList();
+//       hostel = dataList;
+
+//       selectedHostel = dataList.firstWhere(
+//         (hostel) => hostel['hostelID'] == widget.hostelID,
+//         orElse: () => {},
+//       );
+//       // print(dataList);
+//       print('Data fetched successfully');
+//       setState(() {
+//         isLoading = false;
+//       });
+//     } catch (e) {
+//       print('Error fetching data: $e');
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }

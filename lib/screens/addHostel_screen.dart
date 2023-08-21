@@ -18,7 +18,7 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String name;
   late String imageUrl;
-  late List relatedImagesUrls;
+  late List relatedImages;
   late int price;
   late String university;
   late String district;
@@ -94,13 +94,13 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
       imageUrl =
           'https://i0.wp.com/www.artisthostel.ru/wp-content/uploads/2017/09/8704858-1.jpg';
     }
-    relatedImagesUrls = await _uploadImagesToCloudStorage();
+    relatedImages = await _uploadImagesToCloudStorage();
 
     if (name.isNotEmpty) {
       Hostel hostel = Hostel(
         name: name,
-        imageUrl: imageUrl,
-        relatedImagesUrls: relatedImagesUrls,
+        imageURL: imageUrl,
+        relatedImages: relatedImages,
         price: price,
         district: district,
         town: town,
@@ -400,45 +400,6 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
                     ElevatedButton(
                       onPressed: _pickImages,
                       child: Text('Pick Images'),
-                    ),
-                    SizedBox(height: 20),
-                    Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, // Number of items in each row
-                        ),
-                        itemCount: _pickedImages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _pickedImages.removeAt(
-                                    index); // Remove the selected image
-                              });
-                            },
-                            child: Stack(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                  ),
-                                  child: Image.file(
-                                    File(_pickedImages[index].path),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
                     ),
                     SizedBox(height: 16.0),
                     ElevatedButton(

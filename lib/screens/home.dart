@@ -8,9 +8,10 @@ import 'package:hostel_booking/widgets/city_item.dart';
 import 'package:hostel_booking/widgets/feature_item.dart';
 import 'package:hostel_booking/widgets/notification_box.dart';
 import 'package:hostel_booking/widgets/recommend_item.dart';
-import 'package:hostel_booking/services/dataBase/hostel_store.dart';
+// import 'package:hostel_booking/services/dataBase/hostel_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:hostel_booking/widgets/drawer.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,13 +21,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-// UserStore userList = UserStore();
-//
+  List hostel = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // fetchHostels();
+    fetchHostels();
   }
 
   Future<void> fetchHostels() async {
@@ -34,37 +35,83 @@ class _HomePageState extends State<HomePage> {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
 
-      List<Hostel> dataList = querySnapshot.docs
-          .map((doc) => Hostel.fromFirestore(
-              doc as DocumentSnapshot<Map<String, dynamic>>))
-          .toList();
+      List<Map<String, dynamic>> dataList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> hostelData = {};
+        Map<String, dynamic>? docData = doc.data() as Map<String, dynamic>?;
+        ; // Get the document's data
 
-      // Print the names of the fetched hostels
-      for (Hostel hostel in dataList) {
-        print('Hostel Name: ${hostel.name}');
-      }
+        if (docData != null) {
+          if (docData.containsKey('name'))
+            hostelData['name'] = docData['name'].toString();
+          if (docData.containsKey('imageURL'))
+            hostelData['imageURL'] = docData['imageURL'];
+          if (docData.containsKey('relatedImagesUrls'))
+            hostelData['relatedImagesUrls'] = docData['relatedImagesUrls'];
+          if (docData.containsKey('price'))
+            hostelData['price'] = docData['price'];
+          if (docData.containsKey('district'))
+            hostelData['district'] = docData['district'];
+          if (docData.containsKey('town')) hostelData['town'] = docData['town'];
+          if (docData.containsKey('description'))
+            hostelData['description'] = docData['description'];
+          if (docData.containsKey('amenities'))
+            hostelData['amenities'] = docData['amenities'];
+          if (docData.containsKey('contact'))
+            hostelData['contact'] = docData['contact'];
+          if (docData.containsKey('manager'))
+            hostelData['manager'] = docData['manager'];
+          if (docData.containsKey('university'))
+            hostelData['university'] = docData['university'];
+          if (docData.containsKey('doubleRoomsAvailability'))
+            hostelData['doubleRoomsAvailability'] =
+                docData['doubleRoomsAvailability'];
+          if (docData.containsKey('tripleRoomsAvailability'))
+            hostelData['tripleRoomsAvailability'] =
+                docData['tripleRoomsAvailability'];
+          if (docData.containsKey('singleRoomsAvailability'))
+            hostelData['singleRoomsAvailability'] =
+                docData['singleRoomsAvailability'];
+        }
+
+        return hostelData;
+      }).toList();
+      hostel = dataList;
+
+      // print(dataList);
+      print('Data fetched successfully');
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.appBgColor,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColor.appBarColor,
-            pinned: true,
-            snap: true,
-            floating: true,
-            title: _builAppBar(),
-          ),
-          SliverToBoxAdapter(
-            child: _buildBody(),
-          ),
-        ],
-      ),
+      body: isLoading
+          ? Center(
+              child:
+                  CircularProgressIndicator(), // Display circular progress indicator while loading
+            )
+          : CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: AppColor.appBarColor,
+                  pinned: true,
+                  snap: true,
+                  floating: true,
+                  title: _builAppBar(),
+                ),
+                SliverToBoxAdapter(
+                  child: _buildBody(),
+                ),
+              ],
+            ),
     );
   }
 
@@ -165,12 +212,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void hostelList() async {
-    HostelStore hostel = HostelStore();
-    Future<List<dynamic>> hostelData = hostel.getHostels();
-    List<dynamic> feature = await hostelData;
-    print(feature);
-  }
+  // void hostelList() async {
+  //   HostelStore hostel = HostelStore();
+  //   Future<List<dynamic>> hostelData = hostel.getHostels();
+  //   List<dynamic> feature = await hostelData;
+  //   print(feature);
+  // }
 
   _buildFeatured() {
     return CarouselSlider(
@@ -181,14 +228,13 @@ class _HomePageState extends State<HomePage> {
         viewportFraction: .75,
       ),
       items: List.generate(
-        features.length,
+        hostel.length,
         (index) => FeatureItem(
-          data: features[index],
+          data: hostel[index],
           onTapFavorite: () {
-            setState(() {
-              features[index]["is_favorited"] =
-                  !features[index]["is_favorited"];
-            });
+            // setState(() {
+            //   hostel[index]["is_favorited"] = !hostel[index]["is_favorited"];
+            // });
           },
         ),
       ),
