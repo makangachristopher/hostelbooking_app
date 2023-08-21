@@ -26,8 +26,7 @@ class FeatureItem extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => DetailPage(hostelID: data['hostelID'])),
+          MaterialPageRoute(builder: (context) => DetailPage(hostelData: data)),
         );
       },
       child: Container(
