@@ -4,6 +4,8 @@ import '../theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'addHostel_screen.dart';
 import 'addUsers.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hostel_booking/screens/confirm_booking.dart';
 import 'reviews_screen.dart';
@@ -21,7 +23,6 @@ class _DetailPageState extends State<DetailPage> {
   double _rating = 0;
   TextEditingController _reviewController = TextEditingController();
   bool _hasReviewed = false;
-
   void _launchPhone(String phoneNumber) async {
     if (await canLaunch(phoneNumber)) {
       await launch(phoneNumber);
@@ -30,18 +31,23 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
-  void _showImageFullscreen(String imageUrl) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: CachedNetworkImage(
-            imageUrl: imageUrl,
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
-        );
-      },
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text('Hostel Details'),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReviewsScreen(
+                    hostelName: "Modern House"), // Pass the hostel name here
+              ),
+            );
+          },
+          icon: Icon(Icons.reviews),
+        ),
+      ],
     );
   }
 
@@ -65,6 +71,8 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  List hostel = [];
+  bool isLoading = true;
   Map<String, dynamic> selectedHostel = {};
 
   @override
@@ -73,58 +81,10 @@ class _DetailPageState extends State<DetailPage> {
     selectedHostel = widget.hostelData;
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('Hostel Details'),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ReviewsScreen(
-                    hostelName: selectedHostel['name'] ?? "No Name"),
-              ),
-            );
-          },
-          icon: Icon(Icons.reviews),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAlternativeImages() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: selectedHostel['relatedImagesUrls'].map<Widget>((imageUrl) {
-          return GestureDetector(
-            onTap: () {
-              _showImageFullscreen(imageUrl);
-            },
-            child: Container(
-              margin: EdgeInsets.all(10),
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    //  fetchHostels();
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: _buildAppBar(context),
       body: SafeArea(
         child: Stack(
           children: [
@@ -132,6 +92,12 @@ class _DetailPageState extends State<DetailPage> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 296,
+              // child: Image.asset(
+              //   "assets/images/banner1.png",
+              //   height: 296,
+              //   width: MediaQuery.of(context).size.width,
+              //   fit: BoxFit.cover,
+              // ),
               child: CachedNetworkImage(
                 imageUrl: selectedHostel['imageURL'],
                 placeholder: (context, url) => BlankImageWidget(),
@@ -189,6 +155,15 @@ class _DetailPageState extends State<DetailPage> {
                               ],
                             ),
                             Spacer(),
+                            /* Row(
+                              children: [1, 2, 3, 4, 5].map((e) {
+                                return Icon(
+                                  Icons.star,
+                                  size: 12,
+                                  color: (e <= 5) ? orangeColor : greyColor,
+                                );
+                              }).toList(),
+                            ) */
                           ],
                         ),
                       ),
@@ -299,17 +274,6 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                       ),
                       SizedBox(height: 20),
-
-                      // Display alternative images
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        child: Text(
-                          "Alternative Images",
-                          style: sectionSecondaryTitle,
-                        ),
-                      ),
-                      _buildAlternativeImages(),
 
                       // Only show the review form if the user hasn't reviewed yet
                       if (!_hasReviewed)
@@ -569,3 +533,67 @@ class _BlankImageWidgetState extends State<BlankImageWidget> {
     );
   }
 }
+
+// Future<void> fetchHostels() async {
+//     try {
+//       FirebaseFirestore firestore = FirebaseFirestore.instance;
+//       QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
+
+//       List<Map<String, dynamic>> dataList = querySnapshot.docs.map((doc) {
+//         Map<String, dynamic> hostelData = {};
+//         Map<String, dynamic>? docData = doc.data() as Map<String, dynamic>?;
+//         ; // Get the document's data
+
+//         if (docData != null) {
+//           if (docData.containsKey('name'))
+//             hostelData['name'] = docData['name'].toString();
+//           if (docData.containsKey('imageURL'))
+//             hostelData['imageURL'] = docData['imageURL'];
+//           if (docData.containsKey('relatedImagesUrls'))
+//             hostelData['relatedImagesUrls'] = docData['relatedImagesUrls'];
+//           if (docData.containsKey('price'))
+//             hostelData['price'] = docData['price'];
+//           if (docData.containsKey('district'))
+//             hostelData['district'] = docData['district'];
+//           if (docData.containsKey('town')) hostelData['town'] = docData['town'];
+//           if (docData.containsKey('description'))
+//             hostelData['description'] = docData['description'];
+//           if (docData.containsKey('amenities'))
+//             hostelData['amenities'] = docData['amenities'];
+//           if (docData.containsKey('contact'))
+//             hostelData['contact'] = docData['contact'];
+//           if (docData.containsKey('manager'))
+//             hostelData['manager'] = docData['manager'];
+//           if (docData.containsKey('university'))
+//             hostelData['university'] = docData['university'];
+//           if (docData.containsKey('doubleRoomsAvailability'))
+//             hostelData['doubleRoomsAvailability'] =
+//                 docData['doubleRoomsAvailability'];
+//           if (docData.containsKey('tripleRoomsAvailability'))
+//             hostelData['tripleRoomsAvailability'] =
+//                 docData['tripleRoomsAvailability'];
+//           if (docData.containsKey('singleRoomsAvailability'))
+//             hostelData['singleRoomsAvailability'] =
+//                 docData['singleRoomsAvailability'];
+//         }
+
+//         return hostelData;
+//       }).toList();
+//       hostel = dataList;
+
+//       selectedHostel = dataList.firstWhere(
+//         (hostel) => hostel['hostelID'] == widget.hostelID,
+//         orElse: () => {},
+//       );
+//       // print(dataList);
+//       print('Data fetched successfully');
+//       setState(() {
+//         isLoading = false;
+//       });
+//     } catch (e) {
+//       print('Error fetching data: $e');
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
