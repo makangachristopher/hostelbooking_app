@@ -8,10 +8,10 @@ import 'package:hostel_booking/widgets/city_item.dart';
 import 'package:hostel_booking/widgets/feature_item.dart';
 import 'package:hostel_booking/widgets/notification_box.dart';
 import 'package:hostel_booking/widgets/recommend_item.dart';
-import 'package:hostel_booking/services/dataBase/hostel_store.dart';
+// import 'package:hostel_booking/services/dataBase/hostel_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:hostel_booking/widgets/drawer.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       hostel = dataList;
 
       // print(dataList);
-      print(hostel);
+      print('Data fetched successfully');
       setState(() {
         isLoading = false;
       });

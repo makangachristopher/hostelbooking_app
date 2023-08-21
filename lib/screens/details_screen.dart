@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'addHostel_screen.dart';
@@ -70,66 +71,159 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  List hostel = [];
+  bool isLoading = true;
+  Map<String, dynamic> selectedHostel = {};
+
   @override
+  void initState() {
+    super.initState();
+    fetchHostels();
+  }
+
+  Future<void> fetchHostels() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      QuerySnapshot querySnapshot = await firestore.collection('hostels').get();
+
+      List<Map<String, dynamic>> dataList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> hostelData = {};
+        Map<String, dynamic>? docData = doc.data() as Map<String, dynamic>?;
+        ; // Get the document's data
+
+        if (docData != null) {
+          if (docData.containsKey('name'))
+            hostelData['name'] = docData['name'].toString();
+          if (docData.containsKey('imageURL'))
+            hostelData['imageURL'] = docData['imageURL'];
+          if (docData.containsKey('relatedImagesUrls'))
+            hostelData['relatedImagesUrls'] = docData['relatedImagesUrls'];
+          if (docData.containsKey('price'))
+            hostelData['price'] = docData['price'];
+          if (docData.containsKey('district'))
+            hostelData['district'] = docData['district'];
+          if (docData.containsKey('town')) hostelData['town'] = docData['town'];
+          if (docData.containsKey('description'))
+            hostelData['description'] = docData['description'];
+          if (docData.containsKey('amenities'))
+            hostelData['amenities'] = docData['amenities'];
+          if (docData.containsKey('contact'))
+            hostelData['contact'] = docData['contact'];
+          if (docData.containsKey('manager'))
+            hostelData['manager'] = docData['manager'];
+          if (docData.containsKey('university'))
+            hostelData['university'] = docData['university'];
+          if (docData.containsKey('doubleRoomsAvailability'))
+            hostelData['doubleRoomsAvailability'] =
+                docData['doubleRoomsAvailability'];
+          if (docData.containsKey('tripleRoomsAvailability'))
+            hostelData['tripleRoomsAvailability'] =
+                docData['tripleRoomsAvailability'];
+          if (docData.containsKey('singleRoomsAvailability'))
+            hostelData['singleRoomsAvailability'] =
+                docData['singleRoomsAvailability'];
+        }
+
+        return hostelData;
+      }).toList();
+      hostel = dataList;
+
+      selectedHostel = dataList.firstWhere(
+        (hostel) => hostel['hostelID'] == widget.hostelID,
+        orElse: () => {},
+      );
+      // print(dataList);
+      print('Data fetched successfully');
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // NOTE: thumbnail image
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 296,
-              child: Image.asset(
-                "assets/images/banner1.png",
-                height: 296,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-              ),
-            ),
-            // NOTE: content
-            ListView(
-              children: [
-                SizedBox(
-                  height: 266,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30)),
-                    color: whiteColor,
+      body: isLoading
+          ? Center(
+              child:
+                  CircularProgressIndicator(), // Display circular progress indicator while loading
+            )
+          : SafeArea(
+              child: Stack(
+                children: [
+                  // NOTE: thumbnail image
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 296,
+                    child: Image.asset(
+                      "assets/images/banner1.png",
+                      height: 296,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // NOTE: content
+                  ListView(
                     children: [
-                      // NOTE: title
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 24,
-                        ),
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Modern House",
-                                  style: secondaryTitle,
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text(
-                                  "KBP Bandung, Indonesia",
-                                  style: infoSecondaryTitle,
-                                ),
-                              ],
+                      CachedNetworkImage(
+                        imageUrl: selectedHostel['imageURL'],
+                        placeholder: (context, url) => BlankImageWidget(),
+                        errorWidget: (context, url, error) =>
+                            BlankImageWidget(),
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: Boxfit.cover,
                             ),
-                            Spacer(),
-                            /* Row(
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 266,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30)),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // NOTE: title
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 24,
+                              ),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Modern House",
+                                        style: secondaryTitle,
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        "KBP Bandung, Indonesia",
+                                        style: infoSecondaryTitle,
+                                      ),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  /* Row(
                               children: [1, 2, 3, 4, 5].map((e) {
                                 return Icon(
                                   Icons.star,
@@ -138,100 +232,187 @@ class _DetailPageState extends State<DetailPage> {
                                 );
                               }).toList(),
                             ) */
-                          ],
-                        ),
-                      ),
-                      // NOTE: agent
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: Text(
-                          "Manager",
-                          style: sectionSecondaryTitle,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/owner1.png",
-                              width: 50,
+                                ],
+                              ),
                             ),
-                            SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Mr Ahumuza",
-                                  style: contentTitle,
-                                ),
-                                Text(
-                                  "Hostel Manager",
-                                  style: infoText,
-                                ),
-                              ],
+                            // NOTE: agent
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(
+                                "Manager",
+                                style: sectionSecondaryTitle,
+                              ),
                             ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                    "assets/images/message_icon.png",
-                                    width: 30,
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/owner1.png",
+                                    width: 50,
                                   ),
-                                ),
-                                SizedBox(width: 10),
-                                InkWell(
-                                  onTap: () {
-                                    _launchPhone("tel:0703103834");
-                                  },
-                                  child: Image.asset(
-                                    "assets/images/call_icon.png",
-                                    width: 30,
+                                  SizedBox(width: 12),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        selectedHostel['manager'],
+                                        style: contentTitle,
+                                      ),
+                                      Text(
+                                        "Hostel Manager",
+                                        style: infoText,
+                                      ),
+                                    ],
                                   ),
+                                  Spacer(),
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          "assets/images/message_icon.png",
+                                          width: 30,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      InkWell(
+                                        onTap: () {
+                                          _launchPhone("tel:0703103834");
+                                        },
+                                        child: Image.asset(
+                                          "assets/images/call_icon.png",
+                                          width: 30,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            // NOTE: facilities
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(
+                                "Hostel Facilities",
+                                style: sectionSecondaryTitle,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              height: 115,
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  SizedBox(width: 30),
+                                  FacilityCard(
+                                    imageUrl: "assets/images/facilities1.png",
+                                    title: "Swimming Pool",
+                                  ),
+                                  SizedBox(width: 20),
+                                  FacilityCard(
+                                    imageUrl: "assets/images/facilities2.png",
+                                    title: "4 Bedroom",
+                                  ),
+                                  SizedBox(width: 20),
+                                  FacilityCard(
+                                    imageUrl: "assets/images/facilities3.png",
+                                    title: "Garage",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 24),
+                            // NOTE: description
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(
+                                "Description",
+                                style: sectionSecondaryTitle,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              child: Text(
+                                selectedHostel['description'],
+                                style: descText,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+
+                            // Only show the review form if the user hasn't reviewed yet
+                            if (!_hasReviewed)
+                              Column(
+                                children: [
+                                  TextField(
+                                    controller: _reviewController,
+                                    decoration: InputDecoration(
+                                      hintText: 'Write a review',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    maxLines: 5,
+                                  ),
+                                  RatingBar.builder(
+                                    initialRating: _rating,
+                                    minRating: 0,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 36,
+                                    itemBuilder: (context, index) {
+                                      return Icon(
+                                        Icons.star,
+                                        color: index <= _rating
+                                            ? Colors.amber
+                                            : Colors.grey,
+                                      );
+                                    },
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        _rating = rating;
+                                      });
+                                    },
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _submitReview();
+                                    },
+                                    child: Text('Submit Review'),
+                                  ),
+                                ],
+                              ),
+
+                            // Show the reviews
+                            for (Review review in _reviews)
+                              ListTile(
+                                title: Row(
+                                  children: [
+                                    Text('Rating: '),
+                                    Row(
+                                      children: List.generate(5, (index) {
+                                        return Icon(
+                                          Icons.star,
+                                          color: index < review.rating
+                                              ? Colors.amber
+                                              : Colors.grey,
+                                        );
+                                      }),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      // NOTE: facilities
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: Text(
-                          "Hostel Facilities",
-                          style: sectionSecondaryTitle,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        height: 115,
-                        padding: EdgeInsets.only(bottom: 5),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            SizedBox(width: 30),
-                            FacilityCard(
-                              imageUrl: "assets/images/facilities1.png",
-                              title: "Swimming Pool",
-                            ),
-                            SizedBox(width: 20),
-                            FacilityCard(
-                              imageUrl: "assets/images/facilities2.png",
-                              title: "4 Bedroom",
-                            ),
-                            SizedBox(width: 20),
-                            FacilityCard(
-                              imageUrl: "assets/images/facilities3.png",
-                              title: "Garage",
-                            ),
+                                subtitle: Text(review.reviewText),
+                              ),
+
+                            SizedBox(height: 110),
                           ],
                         ),
                       ),
@@ -248,155 +429,70 @@ class _DetailPageState extends State<DetailPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Text(
-                          "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
+                          selectedHostel['description'],
                           style: descText,
                         ),
                       ),
-                      SizedBox(height: 20),
-
-                      // Only show the review form if the user hasn't reviewed yet
-                      if (!_hasReviewed)
-                        Column(
-                          children: [
-                            TextField(
-                              controller: _reviewController,
-                              decoration: InputDecoration(
-                                hintText: 'Write a review',
-                                border: OutlineInputBorder(),
-                              ),
-                              maxLines: 5,
-                            ),
-                            RatingBar.builder(
-                              initialRating: _rating,
-                              minRating: 0,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 36,
-                              itemBuilder: (context, index) {
-                                return Icon(
-                                  Icons.star,
-                                  color: index <= _rating
-                                      ? Colors.amber
-                                      : Colors.grey,
-                                );
-                              },
-                              onRatingUpdate: (rating) {
-                                setState(() {
-                                  _rating = rating;
-                                });
-                              },
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                _submitReview();
-                              },
-                              child: Text('Submit Review'),
-                            ),
-                          ],
-                        ),
-
-                      // Show the reviews
-                      for (Review review in _reviews)
-                        ListTile(
-                          title: Row(
+                      SizedBox(height: 10),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Rating: '),
-                              Row(
-                                children: List.generate(5, (index) {
-                                  return Icon(
-                                    Icons.star,
-                                    color: index < review.rating
-                                        ? Colors.amber
-                                        : Colors.grey,
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddHostelScreen()),
                                   );
-                                }),
+                                },
+                                child: Text('Add Hostel'),
+                              ),
+                              SizedBox(width: 20), // Add space between buttons
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddUserScreen()),
+                                  );
+                                },
+                                child: Text('Add User'),
                               ),
                             ],
                           ),
-                          subtitle: Text(review.reviewText),
-                        ),
+                        ],
+                      ),
 
                       SizedBox(height: 110),
                     ],
                   ),
-                ),
-                SizedBox(height: 24),
-                // NOTE: description
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Description",
-                    style: sectionSecondaryTitle,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Luxury homes at affordable prices with Bandung's hilly atmosphere. Located in a strategic location, flood free.",
-                    style: descText,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddHostelScreen()),
-                            );
-                          },
-                          child: Text('Add Hostel'),
-                        ),
-                        SizedBox(width: 20), // Add space between buttons
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddUserScreen()),
-                            );
-                          },
-                          child: Text('Add User'),
-                        ),
-                      ],
+                  // NOTE: button back
+                  Positioned(
+                    top: 20,
+                    left: 20,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      minWidth: 30,
+                      height: 30,
+                      padding: EdgeInsets.all(5),
+                      color: whiteColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Icon(
+                        Icons.arrow_back_ios_outlined,
+                        size: 14,
+                      ),
                     ),
-                  ],
-                ),
-
-                SizedBox(height: 110),
-              ],
-            ),
-            // NOTE: button back
-            Positioned(
-              top: 20,
-              left: 20,
-              child: MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                minWidth: 30,
-                height: 30,
-                padding: EdgeInsets.all(5),
-                color: whiteColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Icon(
-                  Icons.arrow_back_ios_outlined,
-                  size: 14,
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         height: 100,
