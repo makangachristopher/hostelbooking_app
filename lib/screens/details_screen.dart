@@ -142,14 +142,14 @@ class _DetailPageState extends State<DetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Modern House",
+                                  selectedHostel['name'] ?? "No Name",
                                   style: secondaryTitle,
                                 ),
                                 SizedBox(
                                   height: 4,
                                 ),
                                 Text(
-                                  "KBP Bandung, Indonesia",
+                                  selectedHostel['town'] ?? "Unknown Location",
                                   style: infoSecondaryTitle,
                                 ),
                               ],
@@ -213,7 +213,9 @@ class _DetailPageState extends State<DetailPage> {
                                 SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
-                                    _launchPhone("tel:0703103834");
+                                    String phoneNumber =
+                                        selectedHostel['contact'];
+                                    _launchPhone("tel:$phoneNumber");
                                   },
                                   child: Image.asset(
                                     "assets/images/call_icon.png",
@@ -238,27 +240,20 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       SizedBox(height: 10),
                       Container(
-                        height: 115,
+                        height: 30,
                         padding: EdgeInsets.only(bottom: 5),
-                        child: ListView(
+                        child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          children: [
-                            SizedBox(width: 30),
-                            FacilityCard(
-                              imageUrl: "assets/images/facilities1.png",
-                              title: "Swimming Pool",
-                            ),
-                            SizedBox(width: 20),
-                            FacilityCard(
-                              imageUrl: "assets/images/facilities2.png",
-                              title: "4 Bedroom",
-                            ),
-                            SizedBox(width: 20),
-                            FacilityCard(
-                              imageUrl: "assets/images/facilities3.png",
-                              title: "Garage",
-                            ),
-                          ],
+                          child: Row(
+                            children: [
+                              SizedBox(width: 10),
+                              for (String amenity
+                                  in selectedHostel['amenities']) //
+                                FacilityCard(
+                                  title: amenity,
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 24),
@@ -438,7 +433,7 @@ class _DetailPageState extends State<DetailPage> {
                   style: priceTitle,
                 ),
                 Text(
-                  "\$7,500",
+                  '\UGX${selectedHostel['price'].toString()}',
                   style: priceText,
                 ),
               ],
@@ -452,7 +447,7 @@ class _DetailPageState extends State<DetailPage> {
                 );
               },
               color: purpleColor,
-              minWidth: 196,
+              minWidth: 120,
               height: 50,
               elevation: 0,
               shape: RoundedRectangleBorder(
@@ -485,11 +480,9 @@ List<Review> _reviews = []; // List to store reviews
 
 // Facilities Card
 class FacilityCard extends StatelessWidget {
-  final String imageUrl;
   final String title;
 
   FacilityCard({
-    required this.imageUrl,
     required this.title,
   });
 
@@ -508,7 +501,6 @@ class FacilityCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(imageUrl),
               SizedBox(height: 9),
               Center(
                 child: Text(
