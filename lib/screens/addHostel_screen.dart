@@ -18,7 +18,7 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String name;
   late String imageUrl;
-  late List relatedImagesUrls;
+  late List relatedImages;
   late int price;
   late String university;
   late String district;
@@ -94,13 +94,13 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
       imageUrl =
           'https://i0.wp.com/www.artisthostel.ru/wp-content/uploads/2017/09/8704858-1.jpg';
     }
-    relatedImagesUrls = await _uploadImagesToCloudStorage();
+    relatedImages = await _uploadImagesToCloudStorage();
 
     if (name.isNotEmpty) {
       Hostel hostel = Hostel(
         name: name,
-        imageUrl: imageUrl,
-        relatedImagesUrls: relatedImagesUrls,
+        imageURL: imageUrl,
+        relatedImages: relatedImages,
         price: price,
         district: district,
         town: town,

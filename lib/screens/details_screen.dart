@@ -10,7 +10,9 @@ import 'package:hostel_booking/screens/confirm_booking.dart';
 import 'reviews_screen.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  const DetailPage({required this.hostelID});
+
+  final String hostelID;
 
   @override
   _DetailPageState createState() => _DetailPageState();

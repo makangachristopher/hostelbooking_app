@@ -40,8 +40,8 @@ class HostelStore {
       // Create a map with the hostel data including the generated ID
       Map<String, dynamic> hostelData = {
         'name': hostel.name,
-        'imageURL': hostel.imageUrl,
-        'relatedImages': hostel.relatedImagesUrls,
+        'imageURL': hostel.imageURL,
+        'relatedImages': hostel.relatedImages,
         'price': hostel.price,
         'university': hostel.university,
         'district': hostel.district,
@@ -82,8 +82,8 @@ class HostelStore {
         .doc(hostel.hostelID)
         .update({
           'name': hostel.name,
-          'imageURL': hostel.imageUrl,
-          'relatedImages': hostel.relatedImagesUrls,
+          'imageURL': hostel.imageURL,
+          'relatedImages': hostel.relatedImages,
           'price': hostel.price,
           'university': hostel.university,
           'location': hostel.town,

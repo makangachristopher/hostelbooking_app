@@ -26,7 +26,8 @@ class FeatureItem extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const DetailPage()),
+          MaterialPageRoute(
+              builder: (context) => DetailPage(hostelID: data['hostelID'])),
         );
       },
       child: Container(
@@ -91,7 +92,7 @@ class FeatureItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              data["type"],
+              data["town"],
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -103,7 +104,7 @@ class FeatureItem extends StatelessWidget {
               height: 8,
             ),
             Text(
-              data["price"],
+              data["price"].toString(),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -114,18 +115,18 @@ class FeatureItem extends StatelessWidget {
             ),
           ],
         ),
-        FavoriteBox(
-          size: 16,
-          onTap: onTapFavorite,
-          isFavorited: data["is_favorited"],
-        )
+        // FavoriteBox(
+        //   size: 16,
+        //   onTap: onTapFavorite,
+        //   // isFavorited: data["is_favorited"],
+        // )
       ],
     );
   }
 
   Widget _buildImage() {
     return CustomImage(
-      data["image"],
+      data["imageURL"],
       width: double.infinity,
       height: 190,
       radius: 15,
