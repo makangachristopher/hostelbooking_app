@@ -39,3 +39,8 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/ic_launcher 192x192.png"
