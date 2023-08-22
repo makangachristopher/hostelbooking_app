@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.add),
+                leading: Icon(Icons.star),
                 title: Text('Reviews'),
                 onTap: () {
                   Navigator.pop(context); // Close the drawer
