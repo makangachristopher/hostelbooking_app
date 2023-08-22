@@ -14,14 +14,25 @@ class Notifications_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notifications"),
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Text("Notifications Screen"),
-        ),
-      ),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          title: const Center(
+            child: Text(
+              'Notifications',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Color(0xff4d01ca),
+              size: 15.0,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => RootApp()));
+            },
+          )),
     );
   }
 }

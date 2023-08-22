@@ -14,14 +14,25 @@ class Brokers_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Brokers"),
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Text("Empty Brokers Screen"),
-        ),
-      ),
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          title: const Center(
+            child: Text(
+              'Brokers',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: Color(0xff4d01ca),
+              size: 15.0,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => RootApp()));
+            },
+          )),
     );
   }
 }

@@ -173,257 +173,279 @@ class _AddUserScreenState extends State<AddUserScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            title: const Center(
+              child: Text(
+                'Add User',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                color: Color(0xff4d01ca),
+                size: 15.0,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RootApp()));
+              },
+            )),
         body: ListView(
-      padding: EdgeInsets.all(10.0),
-      children: [
-        Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              GestureDetector(
-                onTap: _pickProfilePhoto,
-                child: Container(
-                  height: 120.0,
-                  width: 120.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 2.0,
+          padding: EdgeInsets.all(10.0),
+          children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: _pickProfilePhoto,
+                    child: Container(
+                      height: 120.0,
+                      width: 120.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 2.0,
+                        ),
+                      ),
+                      child: _profilePhoto == null
+                          ? Icon(
+                              Icons.person,
+                              size: 80.0,
+                              color: Colors.grey,
+                            )
+                          : ClipOval(
+                              child: Image.file(
+                                _profilePhoto!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                     ),
                   ),
-                  child: _profilePhoto == null
-                      ? Icon(
-                          Icons.person,
-                          size: 80.0,
-                          color: Colors.grey,
-                        )
-                      : ClipOval(
-                          child: Image.file(
-                            _profilePhoto!,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Full name',
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter full name';
-                  }
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Full name',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter full name';
+                      }
 
-                  return null;
-                },
-                onSaved: (value) {
-                  name = value.toString();
-                },
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Email is required';
-                  }
-                  if (!value.contains('@')) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Password is required';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                controller: _confirmPasswordController,
-                decoration: InputDecoration(
-                  hintText: 'Confirm password',
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please confirm password';
-                  }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RadioListTile(
-                    title: Text('Male'),
-                    value: 'male',
-                    groupValue: sex,
-                    onChanged: _handleGenderChange,
+                      return null;
+                    },
+                    onSaved: (value) {
+                      name = value.toString();
+                    },
                   ),
-                  RadioListTile(
-                    title: Text('Female'),
-                    value: 'female',
-                    groupValue: sex,
-                    onChanged: _handleGenderChange,
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Email is required';
+                      }
+                      if (!value.contains('@')) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Password is required';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please confirm password';
+                      }
+                      if (value != _passwordController.text) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RadioListTile(
+                        title: Text('Male'),
+                        value: 'male',
+                        groupValue: sex,
+                        onChanged: _handleGenderChange,
+                      ),
+                      RadioListTile(
+                        title: Text('Female'),
+                        value: 'female',
+                        groupValue: sex,
+                        onChanged: _handleGenderChange,
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Phone number',
+                    ),
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Phone number is required';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      phoneNumber = int.parse(value!);
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Other phone number',
+                    ),
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Other phone number is required';
+                      }
+                      if (value.length < 10) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      otherphoneNumber = int.parse(value!);
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: 'User Type', // Label for the field
+                      // Add any other decoration properties you need
+                    ),
+                    value: userType, // The currently selected value
+                    onChanged: (newValue) {
+                      setState(() {
+                        userType =
+                            newValue.toString(); // Update the selected value
+                      });
+                    },
+                    items:
+                        userTypes.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  isLoading
+                      ? CircularProgressIndicator() // Show CircularProgressIndicator while loading
+                      : DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            labelText:
+                                'Hostel of attachment', // Label for the field
+                            // Add any other decoration properties you need
+                          ),
+                          value: selectedHostelID,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedHostelID = newValue!;
+                            });
+                          },
+                          items: hostels
+                              .map<DropdownMenuItem<String>>((Hostel hostel) {
+                                return DropdownMenuItem<String>(
+                                  value: hostel.hostelID,
+                                  child: Text(hostel.name),
+                                );
+                              })
+                              .toSet()
+                              .toList(),
+                        ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'location'),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a location';
+                      }
+
+                      return null;
+                    },
+                    onSaved: (value) {
+                      location = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Work Area'),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a work area';
+                      }
+
+                      return null;
+                    },
+                    onSaved: (value) {
+                      workArea = value!;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: () {
+                            validateAndSave();
+                          },
+                          child: Text('Register user'),
+                        ),
+                  SizedBox(height: 20.0),
+                  if (_errorMessage.isNotEmpty)
+                    Text(
+                      _errorMessage,
+                      style: TextStyle(color: Colors.red),
+                    ),
                 ],
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Phone number',
-                ),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Phone number is required';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  phoneNumber = int.parse(value!);
-                },
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Other phone number',
-                ),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Other phone number is required';
-                  }
-                  if (value.length < 10) {
-                    return 'Please enter a valid phone number';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  otherphoneNumber = int.parse(value!);
-                },
-              ),
-              SizedBox(height: 20.0),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  labelText: 'User Type', // Label for the field
-                  // Add any other decoration properties you need
-                ),
-                value: userType, // The currently selected value
-                onChanged: (newValue) {
-                  setState(() {
-                    userType = newValue.toString(); // Update the selected value
-                  });
-                },
-                items: userTypes.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              isLoading
-                  ? CircularProgressIndicator() // Show CircularProgressIndicator while loading
-                  : DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText:
-                            'Hostel of attachment', // Label for the field
-                        // Add any other decoration properties you need
-                      ),
-                      value: selectedHostelID,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedHostelID = newValue!;
-                        });
-                      },
-                      items: hostels
-                          .map<DropdownMenuItem<String>>((Hostel hostel) {
-                            return DropdownMenuItem<String>(
-                              value: hostel.hostelID,
-                              child: Text(hostel.name),
-                            );
-                          })
-                          .toSet()
-                          .toList(),
-                    ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'location'),
-                maxLines: 3,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a location';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) {
-                  location = value!;
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Work Area'),
-                maxLines: 3,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a work area';
-                  }
-
-                  return null;
-                },
-                onSaved: (value) {
-                  workArea = value!;
-                },
-              ),
-              SizedBox(height: 16.0),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () {
-                        validateAndSave();
-                      },
-                      child: Text('Register user'),
-                    ),
-              SizedBox(height: 20.0),
-              if (_errorMessage.isNotEmpty)
-                Text(
-                  _errorMessage,
-                  style: TextStyle(color: Colors.red),
-                ),
-            ],
-          ),
-        ),
-      ],
-    ));
+            ),
+          ],
+        ));
   }
 }
