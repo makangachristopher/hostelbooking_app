@@ -12,6 +12,10 @@ import 'package:hostel_booking/widgets/recommend_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:hostel_booking/widgets/drawer.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'notifications.dart'; // notifications screen
+import 'brokers.dart'; //  brokers screen
+import 'addHostel_screen.dart'; // add hostel screen
+import 'addUsers.dart'; //  add user screen
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -134,10 +138,79 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const Spacer(),
-        NotificationBox(
-          notifiedNumber: 1,
-        )
+        IconButton(
+          icon: Icon(Icons.menu, color: Colors.black),
+          onPressed: () {
+            _openDrawer(context);
+          },
+        ),
       ],
+    );
+  }
+
+  void _openDrawer(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Drawer(
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.notifications),
+                title: Text('Notifications'),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Notifications_Screen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Brokers'),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Brokers_Screen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.add),
+                title: Text('Add Hostel'),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddHostelScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.add),
+                title: Text('Add User'),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddUserScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

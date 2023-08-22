@@ -58,28 +58,29 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
   // A function to pick multiple images from the gallery
   Future<void> _pickImages() async {
     final picker = ImagePicker();
-    final pickedImages = await picker.pickMultiImage();
+    final pickedImages = await picker
+        .pickMultiImage(); // Use pickMultiImage instead of pickImage
     setState(() {
       _pickedImages = pickedImages;
     });
   }
 
   // A function to upload the picked images to cloud storage
-  Future<List> _uploadImagesToCloudStorage() async {
-    List imageUrls = [];
+  Future<List<String>> _uploadImagesToCloudStorage() async {
+    List<String> imageUrls = [];
 
-    for (XFile imageFile in _pickedImages) {
+    for (XFile xImageFile in _pickedImages) {
+      final File imageFile = File(xImageFile.path); // Convert XFile to File
       final fileName = DateTime.now().millisecondsSinceEpoch.toString();
       final destination = 'hostel_images/related_images/$fileName';
 
       try {
-        await _storage.ref(destination).putFile(imageFile as File);
+        await _storage.ref(destination).putFile(imageFile);
         final imageUrl = await _storage.ref(destination).getDownloadURL();
         imageUrls.add(imageUrl);
-        return imageUrls;
       } catch (e) {
         print('Error uploading image to firebase: $e');
-        return [];
+        // Handle the error if necessary
       }
     }
 
@@ -94,7 +95,8 @@ class _AddHostelScreenState extends State<AddHostelScreen> {
       imageUrl =
           'https://i0.wp.com/www.artisthostel.ru/wp-content/uploads/2017/09/8704858-1.jpg';
     }
-    relatedImages = await _uploadImagesToCloudStorage();
+    relatedImages =
+        await _uploadImagesToCloudStorage(); // Upload images and get URLs
 
     if (name.isNotEmpty) {
       Hostel hostel = Hostel(

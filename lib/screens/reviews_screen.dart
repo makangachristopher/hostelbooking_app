@@ -28,8 +28,7 @@ class ReviewsScreen extends StatelessWidget {
           return ListTile(
             title: Text('Rating: ${review.rating}'),
             subtitle: Text(review.reviewText),
-            trailing: Text(
-                'User: John Doe'), // You can replace with actual user's name
+            trailing: Text('User: John Doe'),
           );
         },
       ),

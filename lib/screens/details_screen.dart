@@ -51,6 +51,21 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
+  void _showImageFullscreen(String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: CachedNetworkImage(
+            imageUrl: imageUrl,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        );
+      },
+    );
+  }
+
   void _submitReview() {
     if (_reviewController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -242,18 +257,18 @@ class _DetailPageState extends State<DetailPage> {
                       Container(
                         height: 30,
                         padding: EdgeInsets.only(bottom: 5),
-                        child: SingleChildScrollView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10),
-                              for (String amenity
-                                  in selectedHostel['amenities']) //
-                                FacilityCard(
-                                  title: amenity,
-                                ),
-                            ],
-                          ),
+                          itemCount: selectedHostel['amenities'].length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  EdgeInsets.only(left: index == 0 ? 50 : 10),
+                              child: FacilityCard(
+                                title: selectedHostel['amenities'][index],
+                              ),
+                            );
+                          },
                         ),
                       ),
                       SizedBox(height: 24),
@@ -274,18 +289,34 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                       ),
                       SizedBox(height: 20),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                        child: Text(
+                          "Alternative Images",
+                          style: sectionSecondaryTitle,
+                        ),
+                      ),
+                      if (selectedHostel['relatedImagesUrls'] != null)
+                        _buildAlternativeImages(),
 
                       // Only show the review form if the user hasn't reviewed yet
                       if (!_hasReviewed)
                         Column(
                           children: [
-                            TextField(
-                              controller: _reviewController,
-                              decoration: InputDecoration(
-                                hintText: 'Write a review',
-                                border: OutlineInputBorder(),
+                            Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width *
+                                    0.8, // Adjust the width as needed
+                                child: TextField(
+                                  controller: _reviewController,
+                                  decoration: InputDecoration(
+                                    hintText: 'Write a review',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  maxLines: 5,
+                                ),
                               ),
-                              maxLines: 5,
                             ),
                             RatingBar.builder(
                               initialRating: _rating,
@@ -464,6 +495,35 @@ class _DetailPageState extends State<DetailPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildAlternativeImages() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children:
+            (selectedHostel['relatedImages'] as List<String>).map((imageUrl) {
+          return GestureDetector(
+            onTap: () {
+              _showImageFullscreen(
+                  imageUrl); // Implement your logic to expand and fill the screen here
+            },
+            child: Container(
+              margin: EdgeInsets.all(10),
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
