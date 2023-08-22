@@ -9,6 +9,8 @@ import 'addUsers.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hostel_booking/screens/confirm_booking.dart';
 import 'reviews_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({required this.hostelData});
@@ -31,26 +33,6 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('Hostel Details'),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ReviewsScreen(
-                    hostelName: "Modern House"), // Pass the hostel name here
-              ),
-            );
-          },
-          icon: Icon(Icons.reviews),
-        ),
-      ],
-    );
-  }
-
   void _showImageFullscreen(String imageUrl) {
     showDialog(
       context: context,
@@ -66,7 +48,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  void _submitReview() {
+  void _submitReview() async {
     if (_reviewController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please provide a review before submitting.")),
@@ -74,16 +56,31 @@ class _DetailPageState extends State<DetailPage> {
       return;
     }
 
-    Review newReview = Review(
-      rating: _rating,
-      reviewText: _reviewController.text,
-    );
-    _reviewController.clear();
+    User? user = FirebaseAuth.instance.currentUser;
 
-    setState(() {
-      _reviews.add(newReview);
-      _hasReviewed = true;
-    });
+    if (user != null) {
+      Review newReview = Review(
+        rating: _rating,
+        reviewText: _reviewController.text,
+      );
+
+      // Store the review data in Firestore
+      await FirebaseFirestore.instance.collection('reviews').add({
+        'hostelName': selectedHostel['name'],
+        'userName': user.displayName ?? user.email,
+        'reviewText': newReview.reviewText,
+        'rating': newReview.rating,
+        'date': Timestamp.now(),
+        'hostelImage': selectedHostel['imageURL']
+      });
+
+      _reviewController.clear();
+
+      setState(() {
+        _reviews.add(newReview);
+        _hasReviewed = true;
+      });
+    }
   }
 
   List hostel = [];

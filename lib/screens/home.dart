@@ -16,6 +16,7 @@ import 'notifications.dart'; // notifications screen
 import 'brokers.dart'; //  brokers screen
 import 'addHostel_screen.dart'; // add hostel screen
 import 'addUsers.dart'; //  add user screen
+import 'reviews_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -164,6 +165,19 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Notifications_Screen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.add),
+                title: Text('Reviews'),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Reviews_Screen(),
                     ),
                   );
                 },
