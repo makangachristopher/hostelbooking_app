@@ -17,6 +17,8 @@ import 'brokers.dart'; //  brokers screen
 import 'addHostel_screen.dart'; // add hostel screen
 import 'addUsers.dart'; //  add user screen
 import 'reviews_screen.dart';
+import 'login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,6 +35,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     fetchHostels();
+  }
+
+  Future<void> _logOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    // Navigate back to login screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
   }
 
   Future<void> fetchHostels() async {
@@ -219,6 +230,14 @@ class _HomePageState extends State<HomePage> {
                       builder: (context) => AddUserScreen(),
                     ),
                   );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Log Out'),
+                onTap: () {
+                  Navigator.pop(context); // Close the drawer
+                  _logOut(context); // Call the logout function
                 },
               ),
             ],
