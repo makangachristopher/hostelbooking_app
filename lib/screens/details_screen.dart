@@ -375,54 +375,7 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 SizedBox(height: 24),
                 // NOTE: description
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    "Description",
-                    style: sectionSecondaryTitle,
-                  ),
-                ),
                 SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Text(
-                    selectedHostel['description'],
-                    style: descText,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddHostelScreen()),
-                            );
-                          },
-                          child: Text('Add Hostel'),
-                        ),
-                        SizedBox(width: 20), // Add space between buttons
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddUserScreen()),
-                            );
-                          },
-                          child: Text('Add User'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 110),
               ],
             ),
             // NOTE: button back
