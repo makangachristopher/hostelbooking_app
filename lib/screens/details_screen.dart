@@ -11,6 +11,7 @@ import 'package:hostel_booking/screens/confirm_booking.dart';
 import 'reviews_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'edit_hostel.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({required this.hostelData});
@@ -398,6 +399,18 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditHostelScreen(
+                      hostelData: selectedHostel,
+                    )), // Navigate to the edit hostel screen
+          );
+        },
+        child: Icon(Icons.edit), // Edit icon
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
