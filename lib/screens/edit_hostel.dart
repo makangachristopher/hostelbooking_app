@@ -55,7 +55,6 @@ class _EditHostelScreenState extends State<EditHostelScreen> {
 
   Future<void> _updateHostel() async {
     if (_formKey.currentState!.validate()) {
-      // Update the hostel data based on form fields
       Map<String, dynamic> updatedHostelData = {
         'name': name,
         'imageURL': imageUrl,
@@ -71,19 +70,15 @@ class _EditHostelScreenState extends State<EditHostelScreen> {
         'doubleRoomsAvailability': doubleRoomsAvailability,
         'singleRoomsAvailability': singleRoomsAvailability,
         'tripleRoomsAvailability': tripleRoomsAvailability,
-        // ... Add other fields ...
       };
 
-      // Update the data in Firestore
       await hostelFirebaseService.updateHostel(
-        widget.hostelData['id'], // Use the hostel ID from the existing data
+        widget.hostelData['id'],
       );
 
-      Navigator.pop(context); // Go back to previous screen
+      Navigator.pop(context);
     }
   }
-
-  // ... Add other functions ...
 
   @override
   void initState() {
@@ -115,7 +110,117 @@ class _EditHostelScreenState extends State<EditHostelScreen> {
                 name = value!;
               },
             ),
-            // ... Other form fields ...
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Price'),
+              initialValue: price.toString(),
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a price';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                price = int.parse(value!);
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Description'),
+              initialValue: description,
+              maxLines: 3,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a description';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                description = value!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'District'),
+              initialValue: district,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a District';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                district = value!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'City/Town/Village'),
+              initialValue: town,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a city or town or village';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                town = value!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'University'),
+              initialValue: university,
+              maxLines: 3,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a university';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                university = value!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Manager\'s name'),
+              maxLines: 3,
+              initialValue: manager,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter the Manager\'s name';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                manager = value!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Contact Details'),
+              initialValue: contact,
+              keyboardType: TextInputType.number,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter contact details';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                contact = value!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Amenities'),
+              maxLines: 3,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter amenities';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                setState(() {
+                  amenities.add(value!);
+                });
+              },
+            ),
             ElevatedButton(
               onPressed: _updateHostel,
               child: Text('Update Hostel'),
