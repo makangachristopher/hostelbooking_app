@@ -164,8 +164,9 @@ class _BrokerDetailsPageState extends State<BrokerDetailsPage> {
                             SizedBox(width: 10),
                             InkWell(
                               onTap: () {
-                                String phoneNumber = selectedBroker['contact'];
-                                _launchPhone("tel:$phoneNumber");
+                                String phoneNumber =
+                                    selectedBroker['phoneNumber'].toString();
+                                _launchPhone("tel:+256$phoneNumber");
                               },
                               child: Image.asset(
                                 "assets/images/call_icon.png",
