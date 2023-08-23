@@ -47,13 +47,48 @@ class UserStore {
   }
 
   // A function to fetch user from firestore
+  Future<List<Map<String, dynamic>>> fetchUsers() async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      QuerySnapshot querySnapshot = await firestore.collection('users').get();
 
-  Future<List> getUsers() async {
-    final QuerySnapshot snapshot = await _firestore.collection('users').get();
-    return snapshot.docs
-        .map((doc) =>
-            User.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>))
-        .toList();
+      List<Map<String, dynamic>> dataList = querySnapshot.docs.map((doc) {
+        Map<String, dynamic> userData = {};
+        Map<String, dynamic>? docData = doc.data() as Map<String, dynamic>?;
+        ; // Get the document's data
+
+        if (docData != null) {
+          if (docData.containsKey('name'))
+            userData['name'] = docData['name'].toString();
+          if (docData.containsKey('imageUrl'))
+            userData['imageUrl'] = docData['imageUrl'];
+          if (docData.containsKey('email'))
+            userData['email'] = docData['email'];
+          if (docData.containsKey('phoneNumber'))
+            userData['phoneNumber'] = docData['phoneNumber'];
+          if (docData.containsKey('otherPhoneNumber'))
+            userData['otherPhoneNumber'] = docData['otherPhoneNumber'];
+          if (docData.containsKey('location'))
+            userData['location'] = docData['location'];
+          if (docData.containsKey('userType'))
+            userData['userType'] = docData['userType'];
+          if (docData.containsKey('workArea'))
+            userData['workArea'] = docData['workArea'];
+          if (docData.containsKey('hostel of attachment'))
+            userData['hostel of attachment'] = docData['hostel of attachment'];
+        }
+
+        return userData;
+      }).toList();
+
+      print('User data fetched');
+      return dataList;
+
+      // print(dataList);
+    } catch (e) {
+      print('Error fetching data: $e');
+      return [];
+    }
   }
 
   // Updating user information
