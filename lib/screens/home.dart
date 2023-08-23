@@ -1,17 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:hostel_booking/services/dataBase/user_store.dart';
 import 'package:flutter/material.dart';
-import 'package:hostel_booking/models/hostel_models.dart';
-// import 'package:hostel_booking/services/dataBase/user_store.dart';
 import 'package:hostel_booking/theme/color.dart';
 import 'package:hostel_booking/utils/data.dart';
 import 'package:hostel_booking/widgets/city_item.dart';
 import 'package:hostel_booking/widgets/feature_item.dart';
-import 'package:hostel_booking/widgets/notification_box.dart';
 import 'package:hostel_booking/widgets/recommend_item.dart';
-// import 'package:hostel_booking/services/dataBase/hostel_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:hostel_booking/widgets/drawer.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'notifications.dart'; // notifications screen
 import 'brokers.dart'; //  brokers screen
 import 'addHostel_screen.dart'; // add hostel screen
@@ -19,6 +14,7 @@ import 'addUsers.dart'; //  add user screen
 import 'reviews_screen.dart';
 import 'login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hostel_booking/widgets/brokerListing.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List hostel = [];
+  List<Map<String, dynamic>> users = [];
   bool isLoading = true;
 
   @override
@@ -92,6 +89,8 @@ class _HomePageState extends State<HomePage> {
         return hostelData;
       }).toList();
       hostel = dataList;
+
+      users = await UserStore().fetchUsers();
 
       // print(dataList);
       print('Data fetched successfully');
@@ -313,17 +312,22 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           _getRecommend(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+            child: Text(
+              "Brokers",
+              style: TextStyle(
+                color: AppColor.textColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+              ),
+            ),
+          ),
+          BrokerListingPage(userData: users)
         ],
       ),
     );
   }
-
-  // void hostelList() async {
-  //   HostelStore hostel = HostelStore();
-  //   Future<List<dynamic>> hostelData = hostel.getHostels();
-  //   List<dynamic> feature = await hostelData;
-  //   print(feature);
-  // }
 
   _buildFeatured() {
     return CarouselSlider(
