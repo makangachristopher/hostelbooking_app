@@ -12,7 +12,7 @@ class BrokerListingPage extends StatelessWidget {
     List<Map<String, dynamic>> data =
         userData.where((user) => user['userType'] == 'Broker').toList();
     return Container(
-      color: Colors.grey.shade900,
+      color: Colors.white,
       child: data.isNotEmpty
           ? Column(
               children: data.map((user) {
@@ -54,7 +54,7 @@ class BrokerListingPage extends StatelessWidget {
           : Center(
               child: Text(
                 "No users found",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
               ),
             ),
     );
@@ -80,11 +80,11 @@ class BrokerListingPage extends StatelessWidget {
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(user['name'],
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500)),
+                      color: Colors.black, fontWeight: FontWeight.w500)),
               SizedBox(
                 height: 5,
               ),
-              Text(user['location'], style: TextStyle(color: Colors.grey[500])),
+              Text(user['location'], style: TextStyle(color: Colors.amber)),
             ])
           ]),
           GestureDetector(
@@ -103,11 +103,11 @@ class BrokerListingPage extends StatelessWidget {
                     color: Color(0xffffff),
                     borderRadius: BorderRadius.circular(5),
                     border: Border.all(
-                      color: Colors.grey.shade700,
+                      color: Colors.amber,
                     )),
                 child: Center(
                     child: Text('Details',
-                        style: TextStyle(color: Colors.white)))),
+                        style: TextStyle(color: Colors.black)))),
           )
         ],
       ),
