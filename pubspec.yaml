@@ -28,6 +28,8 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   shared_preferences: ^2.2.0
   flutter_slidable: ^0.6.0
+  webview_flutter: ^2.0.13
+  http: ^0.13.5
   
 
 dev_dependencies:
